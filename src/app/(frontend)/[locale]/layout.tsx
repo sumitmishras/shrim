@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { notFound } from 'next/navigation'
 import { Inter, Noto_Sans_Devanagari, Space_Grotesk } from 'next/font/google'
-import { isLocale, locales } from '@/i18n/config'
+import { isLocale } from '@/i18n/config'
 import { getSiteSettings, SITE_URL } from '@/lib/site'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
@@ -22,9 +22,8 @@ export const metadata: Metadata = {
   description: 'House construction, interiors, renovation and fabrication in Lucknow. One accountable team from plan to handover. Book a free site visit.',
 }
 
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }))
-}
+// Content is edited in the admin and must show immediately. Revisit caching in the performance milestone.
+export const dynamic = 'force-dynamic'
 
 export default async function LocaleLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
   const { locale } = await params

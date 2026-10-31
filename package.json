@@ -13,7 +13,9 @@
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
-    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/run.ts"
+    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/run.ts",
+    "samples:publish": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/samples.ts publish",
+    "samples:unpublish": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/samples.ts unpublish"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.92.1",

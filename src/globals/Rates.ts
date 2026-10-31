@@ -51,6 +51,15 @@ export const Rates: GlobalConfig = {
         { name: 'percent', type: 'number', required: true, min: 0, max: 100 },
       ],
     },
+    {
+      name: 'fabrication',
+      type: 'group',
+      admin: { description: 'Fabrication is not priced per sq ft. Choose what the Fabrication page shows.' },
+      fields: [
+        { name: 'display', type: 'select', defaultValue: 'quote', options: [{ label: 'Quote on request', value: 'quote' }, { label: 'Starting from ₹X per kg', value: 'per-kg' }] },
+        { name: 'perKgRate', type: 'number', min: 0, label: '₹ per kg', admin: { condition: (_, s) => s?.display === 'per-kg' } },
+      ],
+    },
     { name: 'rangePercent', type: 'number', defaultValue: 10, min: 0, max: 50, label: 'Estimate range ± %' },
   ],
 }

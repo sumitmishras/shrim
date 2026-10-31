@@ -20,10 +20,10 @@ export function Header({ locale }: { locale: Locale }) {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between gap-4">
-        <Logo locale={locale} tagline={t.tagline} />
+        <Logo locale={locale} tagline={t.tagline} compact />
         <nav aria-label="Main" className="hidden items-center gap-6 text-sm lg:flex">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className="text-muted transition-colors hover:text-ink">{l.label}</Link>
+            <Link key={l.href} href={l.href} className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-muted transition-colors hover:text-ink">{l.label}</Link>
           ))}
         </nav>
         <div className="flex items-center gap-3">

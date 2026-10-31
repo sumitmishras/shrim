@@ -12,6 +12,8 @@ import { Projects } from './collections/Projects'
 import { Testimonials } from './collections/Testimonials'
 import { Guides } from './collections/Guides'
 import { Faqs } from './collections/Faqs'
+import { Pages } from './collections/Pages'
+import { AboutPage } from './globals/AboutPage'
 import { Leads } from './collections/Leads'
 import { SiteSettings } from './globals/SiteSettings'
 import { Rates } from './globals/Rates'
@@ -26,8 +28,8 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
     components: { beforeDashboard: ['/components/admin/PlaceholderWarning'] },
   },
-  collections: [Leads, Services, Projects, Testimonials, Guides, Faqs, Media, Users],
-  globals: [SiteSettings, Rates, Tracking],
+  collections: [Leads, Services, Projects, Testimonials, Guides, Faqs, Pages, Media, Users],
+  globals: [SiteSettings, Rates, Tracking, AboutPage],
   localization: {
     locales: [
       { label: 'English', code: 'en' },

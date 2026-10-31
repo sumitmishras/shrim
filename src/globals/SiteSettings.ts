@@ -24,6 +24,16 @@ export const SiteSettings: GlobalConfig = {
         { name: 'googleBusiness', type: 'text' },
       ],
     },
+    {
+      name: 'hero',
+      type: 'group',
+      admin: { description: 'Home page hero. Video is optional; the poster / image shows while it loads or if it is missing.' },
+      fields: [
+        { name: 'video', type: 'upload', relationTo: 'media', admin: { description: 'mp4 or webm, compressed under 3 MB. Plays muted, looped.' } },
+        { name: 'poster', type: 'upload', relationTo: 'media', admin: { description: 'Still frame for the video' } },
+        { name: 'image', type: 'upload', relationTo: 'media', admin: { description: 'Used when there is no video' } },
+      ],
+    },
     { name: 'thankYouPromise', type: 'text', localized: true, defaultValue: 'Hum 30 minute ke andar call karenge' },
     {
       name: 'stats',

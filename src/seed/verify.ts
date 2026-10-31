@@ -23,8 +23,8 @@ async function main() {
   const staff = await payload.create({ collection: 'users', data: { email, password: 'Test-pass-12345!', role: 'staff' } })
   const admin = (await payload.find({ collection: 'users', where: { role: { equals: 'admin' } }, limit: 1 })).docs[0]
 
-  const lead = await payload.create({ collection: 'leads', data: { name: 'Test Lead', phone: '9876543210' } })
-  const lead2 = await payload.create({ collection: 'leads', data: { name: 'Test Lead 2', phone: '9876543211' } })
+  const lead = await payload.create({ collection: 'leads', data: { name: 'Test Lead', phone: '9876543210' } as never })
+  const lead2 = await payload.create({ collection: 'leads', data: { name: 'Test Lead 2', phone: '9876543211' } as never })
   ok(/^SHR-\d{4}-\d{4}$/.test(lead.reference ?? ''), `reference ${lead.reference}`)
   ok(lead2.reference !== lead.reference, `second reference ${lead2.reference}`)
   ok(lead.statusHistory?.length === 1 && lead.statusHistory[0].to === 'new', 'initial history entry')

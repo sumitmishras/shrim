@@ -1,6 +1,8 @@
 import 'dotenv/config'
 import { getPayload, type Payload } from 'payload'
 import config from '../payload.config'
+import { about, pages } from './pages'
+import { lexical } from './lexical'
 import { generalFaqs, guides, rates, sampleProject, services, siteSettingsHi } from './data'
 
 /**
@@ -16,6 +18,7 @@ async function main() {
   await seedFaqs(payload, serviceIds, log)
   await seedGuides(payload, log)
   await seedSamples(payload, serviceIds, log)
+  await seedPages(payload, log)
   await seedGlobals(payload, log)
   log('done')
   process.exit(0)
@@ -90,6 +93,24 @@ async function seedSamples(payload: Payload, serviceIds: Record<string, number>,
       data: { ...p, slug, service: serviceIds[p.service], testimonial: t.id, featured: false, status: 'draft' },
     })
     log(`sample project ${n} (draft)`)
+  }
+}
+
+async function seedPages(payload: Payload, log: Log) {
+  for (const p of pages) {
+    const found = await payload.find({ collection: 'pages', where: { slug: { equals: p.slug } }, limit: 1, depth: 0 })
+    if (found.docs[0]) continue
+    const pick = (l: 'en' | 'hi') => ({ title: p.title[l], intro: p.intro[l], metaDescription: p.metaDescription[l], body: lexical(p.body[l]) })
+    const doc = await payload.create({ collection: 'pages', locale: 'en', data: { slug: p.slug, ...pick('en') } as never })
+    await payload.update({ collection: 'pages', id: doc.id, locale: 'hi', data: pick('hi') as never })
+    log(`page ${p.slug}`)
+  }
+  const a = await payload.findGlobal({ slug: 'aboutPage', locale: 'en', depth: 0 })
+  if (!a.story) {
+    const pick = (l: 'en' | 'hi') => ({ headline: about.headline[l], story: about.story[l], values: about.values[l] })
+    await payload.updateGlobal({ slug: 'aboutPage', locale: 'en', data: { founderName: 'Rahul Tripathi', ...pick('en') } })
+    await payload.updateGlobal({ slug: 'aboutPage', locale: 'hi', data: pick('hi') })
+    log('about page')
   }
 }
 

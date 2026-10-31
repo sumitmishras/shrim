@@ -8,7 +8,7 @@ export function LangSwitch({ locale, label }: { locale: Locale; label: string })
   const bare = pathname.replace(/^\/hi(?=\/|$)/, '') || '/'
   const href = locale === 'en' ? (bare === '/' ? '/hi' : `/hi${bare}`) : bare
   return (
-    <Link href={href} hrefLang={locale === 'en' ? 'hi' : 'en'} className="inline-flex min-h-[44px] items-center px-2 text-sm font-medium text-muted hover:text-ink">
+    <Link href={href} hrefLang={locale === 'en' ? 'hi' : 'en'} className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center px-2 text-sm font-medium text-muted hover:text-ink">
       {label}
     </Link>
   )

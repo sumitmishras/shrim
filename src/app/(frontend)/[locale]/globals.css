@@ -30,8 +30,11 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); 
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  [data-timeline-line] { transform: none !important; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+@layer components {
 .container-x { width: 100%; max-width: 76rem; margin-inline: auto; padding-inline: 1rem; }
 @media (min-width: 768px) { .container-x { padding-inline: 2rem; } }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: .65rem 1.4rem; border-radius: 999px; font-weight: 600; transition: transform .2s, background .2s; }
@@ -39,3 +42,22 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); 
 .btn-primary { background: var(--accent); color: var(--accent-ink); }
 .btn-ghost { border: 1px solid var(--line); color: var(--ink); background: transparent; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 1.5rem; }
+}
+
+.placeholder-art {
+  background-color: color-mix(in srgb, var(--line) 55%, var(--bg));
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.prose-shrim { max-width: 44rem; font-size: 1.0625rem; line-height: 1.75; }
+.prose-shrim > * + * { margin-top: 1.1em; }
+.prose-shrim h2 { font-family: var(--font-display), var(--font-deva), sans-serif; font-size: 1.6rem; font-weight: 700; line-height: 1.25; margin-top: 2em; scroll-margin-top: 5rem; }
+.prose-shrim h3 { font-family: var(--font-display), var(--font-deva), sans-serif; font-size: 1.25rem; font-weight: 600; margin-top: 1.6em; scroll-margin-top: 5rem; }
+.prose-shrim ul, .prose-shrim ol { padding-left: 1.4em; }
+.prose-shrim ul { list-style: disc; }
+.prose-shrim ol { list-style: decimal; }
+.prose-shrim li + li { margin-top: .4em; }
+.prose-shrim a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.prose-shrim blockquote { border-left: 3px solid var(--accent); padding-left: 1em; color: var(--muted); }

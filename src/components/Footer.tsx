@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { localePath, type Locale } from '@/i18n/config'
-import { getDictionary, priorityAreas, serviceSlugs } from '@/i18n/dictionary'
+import { areaName, getDictionary, priorityAreas, serviceSlugs } from '@/i18n/dictionary'
 import { isPlaceholder, type SiteSettings } from '@/lib/site'
 import { Logo } from './Logo'
 
@@ -15,7 +15,7 @@ export function Footer({ locale, s }: { locale: Locale; s: SiteSettings }) {
           <p className="text-sm text-muted">{t.promise}</p>
           {social.length > 0 && (
             <ul className="flex flex-wrap gap-3 text-sm">
-              {social.map(([k, v]) => (<li key={k}><a href={v!} rel="noopener noreferrer" target="_blank" className="capitalize text-muted hover:text-ink">{k}</a></li>))}
+              {social.map(([k, v]) => (<li key={k}><a href={v!} rel="noopener noreferrer" target="_blank" className="inline-flex min-h-[44px] items-center capitalize text-muted hover:text-ink">{k}</a></li>))}
             </ul>
           )}
         </div>
@@ -23,7 +23,7 @@ export function Footer({ locale, s }: { locale: Locale; s: SiteSettings }) {
           {serviceSlugs.map((slug) => (<Link key={slug} href={localePath(locale, `/services/${slug}`)}>{t.svc[slug]}</Link>))}
         </FooterCol>
         <FooterCol title={t.footer.areas}>
-          {priorityAreas.map((a) => (<span key={a}>{a}</span>))}
+          {priorityAreas.map((a) => (<span key={a}>{areaName(locale, a)}</span>))}
         </FooterCol>
         <FooterCol title={t.footer.contact}>
           {!isPlaceholder(s.phone) && <a href={`tel:${s.phone}`}>{s.phone}</a>}
@@ -44,7 +44,7 @@ function FooterCol({ title, children }: { title: string; children: React.ReactNo
   return (
     <div>
       <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider">{title}</h2>
-      <div className="flex flex-col gap-2 text-sm text-muted [&_a:hover]:text-ink">{children}</div>
+      <div className="flex flex-col text-sm text-muted [&>a]:inline-flex [&>a]:min-h-[44px] [&>a]:items-center [&>a:hover]:text-ink [&>span]:py-1.5">{children}</div>
     </div>
   )
 }

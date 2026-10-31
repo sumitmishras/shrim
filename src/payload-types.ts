@@ -73,6 +73,7 @@ export interface Config {
     testimonials: Testimonial;
     guides: Guide;
     faqs: Faq;
+    pages: Page;
     media: Media;
     users: User;
     'payload-kv': PayloadKv;
@@ -88,6 +89,7 @@ export interface Config {
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     guides: GuidesSelect<false> | GuidesSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -103,11 +105,13 @@ export interface Config {
     siteSettings: SiteSetting;
     rates: Rate;
     tracking: Tracking;
+    aboutPage: AboutPage;
   };
   globalsSelect: {
     siteSettings: SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     rates: RatesSelect<false> | RatesSelect<true>;
     tracking: TrackingSelect<false> | TrackingSelect<true>;
+    aboutPage: AboutPageSelect<false> | AboutPageSelect<true>;
   };
   locale: 'en' | 'hi';
   widgets: {
@@ -516,6 +520,34 @@ export interface Faq {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  slug: 'commercial' | 'privacy-policy' | 'terms';
+  intro?: string | null;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  metaDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -561,6 +593,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'faqs';
         value: number | Faq;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'media';
@@ -827,6 +863,19 @@ export interface FaqsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  intro?: T;
+  body?: T;
+  metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -958,6 +1007,23 @@ export interface SiteSetting {
     youtube?: string | null;
     googleBusiness?: string | null;
   };
+  /**
+   * Home page hero. Video is optional; the poster / image shows while it loads or if it is missing.
+   */
+  hero?: {
+    /**
+     * mp4 or webm, compressed under 3 MB. Plays muted, looped.
+     */
+    video?: (number | null) | Media;
+    /**
+     * Still frame for the video
+     */
+    poster?: (number | null) | Media;
+    /**
+     * Used when there is no video
+     */
+    image?: (number | null) | Media;
+  };
   thankYouPromise?: string | null;
   stats?: {
     yearsExperience?: string | null;
@@ -1017,6 +1083,13 @@ export interface Rate {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Fabrication is not priced per sq ft. Choose what the Fabrication page shows.
+   */
+  fabrication?: {
+    display?: ('quote' | 'per-kg') | null;
+    perKgRate?: number | null;
+  };
   rangePercent?: number | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1040,6 +1113,36 @@ export interface Tracking {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "aboutPage".
+ */
+export interface AboutPage {
+  id: number;
+  headline?: string | null;
+  /**
+   * Rahul Tripathi’s story. Leave a blank line between paragraphs.
+   */
+  story?: string | null;
+  founderName?: string | null;
+  founderPhoto?: (number | null) | Media;
+  teamPhotos?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  values?:
+    | {
+        title: string;
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "siteSettings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
@@ -1058,6 +1161,13 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         facebook?: T;
         youtube?: T;
         googleBusiness?: T;
+      };
+  hero?:
+    | T
+    | {
+        video?: T;
+        poster?: T;
+        image?: T;
       };
   thankYouPromise?: T;
   stats?:
@@ -1103,6 +1213,12 @@ export interface RatesSelect<T extends boolean = true> {
         percent?: T;
         id?: T;
       };
+  fabrication?:
+    | T
+    | {
+        display?: T;
+        perKgRate?: T;
+      };
   rangePercent?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1115,6 +1231,33 @@ export interface RatesSelect<T extends boolean = true> {
 export interface TrackingSelect<T extends boolean = true> {
   gtmId?: T;
   metaPixelId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "aboutPage_select".
+ */
+export interface AboutPageSelect<T extends boolean = true> {
+  headline?: T;
+  story?: T;
+  founderName?: T;
+  founderPhoto?: T;
+  teamPhotos?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  values?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -8,14 +8,14 @@ export default async function PlaceholderWarning({ payload, user }: ServerProps)
   const hits: string[] = []
   const check = (label: string, doc: unknown) => PATTERN.test(JSON.stringify(doc)) && hits.push(label)
 
-  for (const slug of ['services', 'projects', 'testimonials', 'guides', 'faqs'] as const) {
+  for (const slug of ['services', 'projects', 'testimonials', 'guides', 'faqs', 'pages'] as const) {
     const res = await payload.find({
       collection: slug, limit: 500, depth: 0, locale: 'all', pagination: false,
-      where: slug === 'services' || slug === 'faqs' ? undefined : { status: { equals: 'published' } },
+      where: slug === 'services' || slug === 'faqs' || slug === 'pages' ? undefined : { status: { equals: 'published' } },
     })
     for (const d of res.docs) check(`${slug}: ${(d as { title?: unknown; question?: unknown }).title ?? (d as { question?: unknown }).question ? 'entry #' + d.id : d.id}`, d)
   }
-  for (const slug of ['siteSettings', 'rates'] as const) {
+  for (const slug of ['siteSettings', 'rates', 'aboutPage'] as const) {
     check(`Globals → ${slug}`, await payload.findGlobal({ slug, depth: 0, locale: 'all' }))
   }
   if (hits.length === 0) return null
