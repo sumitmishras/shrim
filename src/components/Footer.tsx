@@ -9,7 +9,7 @@ export function Footer({ locale, s, cookieSettings = false }: { locale: Locale; 
   const t = getDictionary(locale)
   const social = Object.entries(s.social || {}).filter(([, v]) => v)
   return (
-    <footer className="mt-24 border-t border-line pb-24 lg:pb-0">
+    <footer className="mt-4 border-t border-line pb-24 lg:pb-0">
       <div className="container-x grid gap-10 py-14 md:grid-cols-4">
         <div className="space-y-4">
           <Logo locale={locale} tagline={t.tagline} />

@@ -26,8 +26,8 @@ export default async function ServicesPage({ params }: P) {
       <Crumbs locale={locale} trail={[{ name: t.nav.services, path: '/services' }]} />
       <PageHero title={t.servicesPage.title} sub={t.servicesPage.sub} />
       <Section>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((svc, i) => <ServiceCard key={svc.id} service={svc} locale={locale} index={i} />)}
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
+          {services.map((svc, i) => <div key={svc.id} className={i < 3 ? 'lg:col-span-2' : 'lg:col-span-3'}><ServiceCard service={svc} locale={locale} index={i} wide={i >= 3} level={2} /></div>)}
         </div>
       </Section>
       <LeadCta locale={locale} s={s} title={t.home_.ctaTitle} sub={t.home_.ctaSub} />

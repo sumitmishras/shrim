@@ -1,15 +1,8 @@
 import { z } from 'zod'
 import { BUDGET_BANDS, CALC_EXTRAS, CALC_LIMITS, CALC_SERVICES, CALC_TIERS, FLOORS, LEAD_SERVICES, PLOT_STATUS, SHORT_SOURCES, TIMELINES, VISIT_SLOTS } from './options'
 
-/** "+91 98765-43210", "09876543210", "9876543210" -> "9876543210" (may still be invalid). */
-export function normalizePhone(raw: string) {
-  let d = raw.replace(/\D/g, '')
-  if (d.length === 12 && d.startsWith('91')) d = d.slice(2)
-  else if (d.length === 11 && d.startsWith('0')) d = d.slice(1)
-  return d
-}
-/** Indian mobile: 10 digits, starts with 6-9. */
-export const isIndianMobile = (p: string) => /^[6-9]\d{9}$/.test(p)
+import { isIndianMobile, normalizePhone } from './phone'
+export { isIndianMobile, normalizePhone }
 
 const text = (max: number) => z.string().trim().max(max).optional().transform((v) => v || undefined)
 const optEnum = <T extends readonly [string, ...string[]]>(vals: T) =>

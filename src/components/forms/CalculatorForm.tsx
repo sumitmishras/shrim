@@ -6,7 +6,7 @@ import { areaName, getDictionary, priorityAreas, secondaryAreas } from '@/i18n/d
 import { submitCalculatorLead } from '@/lib/leads/actions'
 import { estimate, formatMoney, type CalcInput, type RatesData } from '@/lib/leads/estimate'
 import { CALC_EXTRAS, CALC_LIMITS, CALC_SERVICES, CALC_TIERS } from '@/lib/leads/options'
-import { isIndianMobile, normalizePhone } from '@/lib/leads/schema'
+import { isIndianMobile, normalizePhone } from '@/lib/leads/phone'
 import { track } from '@/lib/track'
 import { ConsentField, errText, FormMessage, Honeypot, SelectField, TextField } from './ui'
 
@@ -75,7 +75,7 @@ export function CalculatorForm({ locale, rates, initialArea, initialFloors, samp
   const extraLabel = (k: string) => rates.extras.find((x) => x.key === k)?.label ?? k
 
   return (
-    <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+    <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start">
       <form onSubmit={calc} noValidate className="card space-y-5 p-6 md:p-8">
         <SelectField label={c.service} value={inp.service} onChange={(x) => set('service', x.target.value as CalcInput['service'])}>
           {CALC_SERVICES.map((s) => <option key={s} value={s}>{c.serviceOpts[s]}</option>)}

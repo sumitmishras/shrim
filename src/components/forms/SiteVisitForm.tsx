@@ -5,7 +5,7 @@ import { localePath, type Locale } from '@/i18n/config'
 import { areaName, getDictionary, priorityAreas, secondaryAreas, serviceSlugs } from '@/i18n/dictionary'
 import { submitSiteVisit } from '@/lib/leads/actions'
 import { BUDGET_BANDS, FLOORS, PLOT_STATUS, TIMELINES, VISIT_SLOTS } from '@/lib/leads/options'
-import { isIndianMobile, normalizePhone } from '@/lib/leads/schema'
+import { isIndianMobile, normalizePhone } from '@/lib/leads/phone'
 import { track } from '@/lib/track'
 import { ConsentField, errText, FormMessage, Honeypot, OptionCards, SelectField, ServiceIcon, TextField } from './ui'
 

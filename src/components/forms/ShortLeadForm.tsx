@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { localePath, type Locale } from '@/i18n/config'
 import { getDictionary, serviceSlugs } from '@/i18n/dictionary'
 import { submitShortLead } from '@/lib/leads/actions'
-import { isIndianMobile, normalizePhone } from '@/lib/leads/schema'
+import { isIndianMobile, normalizePhone } from '@/lib/leads/phone'
 import { track } from '@/lib/track'
 import { ConsentField, errText, FormMessage, Honeypot, SelectField, TextAreaField, TextField } from './ui'
 

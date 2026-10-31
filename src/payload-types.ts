@@ -178,9 +178,11 @@ export interface Lead {
   statusHistory?:
     | {
         from?:
-          ('new' | 'contacted' | 'qualified' | 'site-visit' | 'quotation-sent' | 'negotiation' | 'won' | 'lost') | null;
+          | ('new' | 'contacted' | 'qualified' | 'site-visit' | 'quotation-sent' | 'negotiation' | 'won' | 'lost')
+          | null;
         to?:
-          ('new' | 'contacted' | 'qualified' | 'site-visit' | 'quotation-sent' | 'negotiation' | 'won' | 'lost') | null;
+          | ('new' | 'contacted' | 'qualified' | 'site-visit' | 'quotation-sent' | 'negotiation' | 'won' | 'lost')
+          | null;
         at?: string | null;
         by?: (number | null) | User;
         id?: string | null;
@@ -191,7 +193,8 @@ export interface Lead {
   email?: string | null;
   locality?: string | null;
   service?:
-    ('house-construction' | 'interior' | 'renovation' | 'fabrication' | 'turnkey' | 'commercial' | 'not-sure') | null;
+    | ('house-construction' | 'interior' | 'renovation' | 'fabrication' | 'turnkey' | 'commercial' | 'not-sure')
+    | null;
   areaSize?: string | null;
   floors?: string | null;
   plotStatus?: ('ready' | 'under-purchase' | 'existing-building') | null;

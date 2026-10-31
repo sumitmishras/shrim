@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { afterChangeRevalidate, afterDeleteRevalidate } from '../lib/revalidate'
 import { hideFromStaff, isAdmin, publishedOrUser } from '../access'
 import { slugFromTitle } from '../lib/slug'
 
@@ -11,6 +12,7 @@ export const Projects: CollectionConfig = {
   slug: 'projects',
   admin: { useAsTitle: 'title', defaultColumns: ['title', 'service', 'area', 'featured', 'status'], hidden: hideFromStaff, group: 'Content' },
   access: { read: publishedOrUser, create: isAdmin, update: isAdmin, delete: isAdmin },
+  hooks: { afterChange: [afterChangeRevalidate], afterDelete: [afterDeleteRevalidate] },
   fields: [
     { name: 'title', type: 'text', required: true, localized: true },
     { name: 'slug', type: 'text', required: true, unique: true, index: true, hooks: { beforeValidate: [slugFromTitle] } },

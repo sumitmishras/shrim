@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+import { globalAfterChangeRevalidate } from '../lib/revalidate'
 import { hideFromStaff, isAdmin } from '../access'
 
 const serviceOptions = [
@@ -13,6 +14,7 @@ export const Rates: GlobalConfig = {
   slug: 'rates',
   admin: { hidden: hideFromStaff, group: 'Settings', description: 'Drives the cost calculator and “starting from” prices on service pages.' },
   access: { read: () => true, update: isAdmin },
+  hooks: { afterChange: [globalAfterChangeRevalidate] },
   fields: [
     {
       name: 'sampleData', type: 'checkbox', defaultValue: true, label: 'These are SAMPLE values – UPDATE BEFORE LAUNCH',

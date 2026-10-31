@@ -5,7 +5,7 @@ import { useState } from 'react'
 export function MobileNav({ links, cta }: { links: { href: string; label: string }[]; cta: { href: string; label: string } }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button type="button" aria-expanded={open} aria-controls="mobile-menu" aria-label="Menu" onClick={() => setOpen((o) => !o)} className="inline-flex size-11 items-center justify-center rounded-full border border-line">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
           {open ? <path d="M4 4l12 12M16 4L4 16" /> : <path d="M3 6h14M3 10h14M3 14h14" />}

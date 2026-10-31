@@ -1,4 +1,5 @@
 import type { Testimonial } from '@/payload-types'
+import { cardGrid } from '@/lib/grid'
 import { file } from '@/lib/media'
 import { Reveal } from './Reveal'
 
@@ -7,7 +8,7 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
   if (!items.length) return null
   const sorted = [...items].sort((a, b) => Number(!!file(b.video)) - Number(!!file(a.video)))
   return (
-    <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    <ul className={cardGrid(sorted.length)}>
       {sorted.map((t, i) => {
         const v = file(t.video)
         return (
@@ -20,7 +21,7 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
                   <figcaption className="mt-4 text-sm">
                     <span className="font-semibold">{t.clientName}</span>
                     {t.area && <span className="text-muted"> · {t.area}</span>}
-                    {t.rating ? <span className="ml-2 text-accent" aria-label={`${t.rating} / 5`}>{'★'.repeat(Math.round(t.rating))}</span> : null}
+                    {t.rating ? <span className="ml-2 text-accent-text" aria-label={`${t.rating} / 5`}>{'★'.repeat(Math.round(t.rating))}</span> : null}
                   </figcaption>
                 </div>
               </figure>

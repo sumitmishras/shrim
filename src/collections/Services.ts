@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { afterChangeRevalidate, afterDeleteRevalidate } from '../lib/revalidate'
 import { hideFromStaff, isAdmin } from '../access'
 import { slugFromTitle } from '../lib/slug'
 
@@ -6,6 +7,7 @@ export const Services: CollectionConfig = {
   slug: 'services',
   admin: { useAsTitle: 'title', defaultColumns: ['title', 'slug', 'order'], hidden: hideFromStaff, group: 'Content' },
   access: { read: () => true, create: isAdmin, update: isAdmin, delete: isAdmin },
+  hooks: { afterChange: [afterChangeRevalidate], afterDelete: [afterDeleteRevalidate] },
   defaultSort: 'order',
   fields: [
     { name: 'title', type: 'text', required: true, localized: true },

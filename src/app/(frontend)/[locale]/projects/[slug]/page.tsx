@@ -14,6 +14,10 @@ import { Section, SectionHead } from '@/components/Section'
 import { Testimonials } from '@/components/Testimonials'
 import { Crumbs, JsonLd } from '@/components/JsonLd'
 
+export function generateStaticParams() {
+  return []
+}
+
 type P = { params: Promise<{ locale: string; slug: string }> }
 
 export async function generateMetadata({ params }: P): Promise<Metadata> {
@@ -54,7 +58,7 @@ export default async function ProjectPage({ params }: P) {
       <Crumbs locale={locale} trail={[{ name: t.nav.projects, path: '/projects' }, { name: p.title, path: `/projects/${slug}` }]} />
       <section className="border-b border-line">
         <div className="container-x py-12 md:py-16">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent">{svc?.title}</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent-text">{svc?.title}</p>
           <h1 className="max-w-3xl font-display text-4xl font-bold leading-tight md:text-5xl">{p.title}</h1>
           <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 md:grid-cols-3 lg:grid-cols-6">
             {facts.map(([k, v]) => (
@@ -66,7 +70,7 @@ export default async function ProjectPage({ params }: P) {
 
       {pairs.length > 0 && (
         <Section>
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className={pairs.length > 1 ? 'grid gap-6 md:grid-cols-2' : 'mx-auto max-w-4xl'}>
             {pairs.map(({ b, a }, i) => <BeforeAfter key={i} priority={i === 0} before={b} after={a} beforeLabel={t.home_.before} afterLabel={t.home_.after} />)}
           </div>
         </Section>

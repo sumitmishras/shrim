@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { localePath } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionary'
 import { getFaqs, getProjects, getServices, getTestimonials } from '@/lib/data'
+import { cardGrid } from '@/lib/grid'
 import { getLocale } from '@/lib/locale'
 import { rows } from '@/lib/media'
 import { pageMeta } from '@/lib/meta'
@@ -56,8 +57,8 @@ export default async function Home({ params }: P) {
 
       <Section>
         <SectionHead title={h.servicesTitle} sub={h.servicesSub} />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((svc, i) => <ServiceCard key={svc.id} service={svc} locale={locale} index={i} />)}
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
+          {services.map((svc, i) => <div key={svc.id} className={i < 3 ? 'lg:col-span-2' : 'lg:col-span-3'}><ServiceCard service={svc} locale={locale} index={i} wide={i >= 3} /></div>)}
         </div>
       </Section>
 
@@ -68,7 +69,7 @@ export default async function Home({ params }: P) {
             {pairs.map(({ p, before, after }) => (
               <Reveal key={p.id}>
                 <BeforeAfter before={before} after={after} beforeLabel={h.before} afterLabel={h.after} />
-                <Link href={localePath(locale, `/projects/${p.slug}`)} className="mt-3 inline-flex min-h-[44px] items-center font-medium hover:text-accent">{p.title} →</Link>
+                <Link href={localePath(locale, `/projects/${p.slug}`)} className="mt-3 inline-flex min-h-[44px] items-center font-medium hover:text-accent-text">{p.title} →</Link>
               </Reveal>
             ))}
           </div>
@@ -88,9 +89,9 @@ export default async function Home({ params }: P) {
         <Section>
           <div className="flex items-end justify-between gap-4">
             <SectionHead title={h.featuredTitle} />
-            <Link href={localePath(locale, '/projects')} className="mb-10 inline-flex min-h-[44px] shrink-0 items-center font-medium text-accent">{t.viewAll} →</Link>
+            <Link href={localePath(locale, '/projects')} className="mb-10 inline-flex min-h-[44px] shrink-0 items-center font-medium text-accent-text">{t.viewAll} →</Link>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={cardGrid(Math.min(3, featured.docs.length))}>
             {featured.docs.slice(0, 3).map((p, i) => <ProjectCard key={p.id} project={p} locale={locale} index={i} />)}
           </div>
         </Section>

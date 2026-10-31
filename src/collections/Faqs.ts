@@ -1,10 +1,12 @@
 import type { CollectionConfig } from 'payload'
+import { afterChangeRevalidate, afterDeleteRevalidate } from '../lib/revalidate'
 import { hideFromStaff, isAdmin } from '../access'
 
 export const Faqs: CollectionConfig = {
   slug: 'faqs',
   admin: { useAsTitle: 'question', defaultColumns: ['question', 'category', 'service', 'order'], hidden: hideFromStaff, group: 'Content' },
   access: { read: () => true, create: isAdmin, update: isAdmin, delete: isAdmin },
+  hooks: { afterChange: [afterChangeRevalidate], afterDelete: [afterDeleteRevalidate] },
   defaultSort: 'order',
   fields: [
     { name: 'question', type: 'text', required: true, localized: true },

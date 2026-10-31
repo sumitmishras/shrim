@@ -1,10 +1,12 @@
 import type { CollectionConfig } from 'payload'
+import { afterChangeRevalidate, afterDeleteRevalidate } from '../lib/revalidate'
 import { hideFromStaff, isAdmin, publishedOrUser } from '../access'
 
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
   admin: { useAsTitle: 'clientName', defaultColumns: ['clientName', 'area', 'status', 'consentToPublish'], hidden: hideFromStaff, group: 'Content' },
   access: { read: publishedOrUser, create: isAdmin, update: isAdmin, delete: isAdmin },
+  hooks: { afterChange: [afterChangeRevalidate], afterDelete: [afterDeleteRevalidate] },
   fields: [
     { name: 'clientName', type: 'text', required: true, admin: { description: 'Full name, or initials (e.g. "R. Singh") if the client prefers' } },
     { name: 'area', type: 'text' },

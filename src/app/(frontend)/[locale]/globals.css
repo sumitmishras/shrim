@@ -4,22 +4,22 @@
 
 :root {
   --bg: #f6f3ee; --surface: #ffffff; --ink: #1c1a17; --muted: #6b655c;
-  --accent: #c8792b; --accent-ink: #ffffff; --line: #e4ded4; --danger: #b3261e;
+  --accent: #c8792b; --accent-text: #9c5817; --accent-ink: #1c1a17; --line: #e4ded4; --danger: #b3261e;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     --bg: #12110f; --surface: #1c1a17; --ink: #f1ece4; --muted: #a39b8f;
-    --accent: #e0954a; --accent-ink: #12110f; --line: #2e2a25; --danger: #f2867f;
+    --accent: #e0954a; --accent-text: #e0954a; --accent-ink: #12110f; --line: #2e2a25; --danger: #f2867f;
   }
 }
 :root[data-theme='dark'] {
   --bg: #12110f; --surface: #1c1a17; --ink: #f1ece4; --muted: #a39b8f;
-  --accent: #e0954a; --accent-ink: #12110f; --line: #2e2a25; --danger: #f2867f;
+  --accent: #e0954a; --accent-text: #e0954a; --accent-ink: #12110f; --line: #2e2a25; --danger: #f2867f;
 }
 
 @theme inline {
   --color-bg: var(--bg); --color-surface: var(--surface); --color-ink: var(--ink);
-  --color-muted: var(--muted); --color-accent: var(--accent); --color-accent-ink: var(--accent-ink);
+  --color-muted: var(--muted); --color-accent: var(--accent); --color-accent-text: var(--accent-text); --color-accent-ink: var(--accent-ink);
   --color-line: var(--line); --color-danger: var(--danger);
   --font-display: var(--font-display), var(--font-deva), system-ui, sans-serif;
   --font-sans: var(--font-body), var(--font-deva), system-ui, sans-serif;
@@ -59,5 +59,5 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); 
 .prose-shrim ul { list-style: disc; }
 .prose-shrim ol { list-style: decimal; }
 .prose-shrim li + li { margin-top: .4em; }
-.prose-shrim a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.prose-shrim a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
 .prose-shrim blockquote { border-left: 3px solid var(--accent); padding-left: 1em; color: var(--muted); }

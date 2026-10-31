@@ -163,7 +163,7 @@ export const buildBody = (blocks: Block[]) => lexical(blocks)
 export const about = {
   headline: { en: 'Built on plain talk and finished work', hi: 'सीधी बात और पूरा किया हुआ काम' },
   story: {
-    en: 'SHRIM Enterprises is a Lucknow-based construction, interiors and fabrication business run by Rahul Tripathi, with 7+ years of execution experience. Our office is in Chinhat and we work mainly in east Lucknow.\n\nPLACEHOLDER – Rahul Tripathi’s own story goes here: how he started, what he believes about building well, and what customers can expect from working with him.',
+    en: 'SHRIM Enterprises is a Lucknow-based construction, interiors and fabrication business run by Rahul Tripathi, with 7+ years of execution experience. Our office is in Chinhat and we work mainly in east Lucknow.\n\nPLACEHOLDER – Rahul Tripathi’s own story goes here: how SHRIM started, what Rahul believes about building well, and what customers can expect.',
     hi: 'SHRIM Enterprises लखनऊ की कंस्ट्रक्शन, इंटीरियर और फैब्रिकेशन फ़र्म है, जिसे राहुल त्रिपाठी चलाते हैं। उन्हें काम करवाने का 7+ साल का अनुभव है। हमारा ऑफ़िस चिनहट में है और हम ज़्यादातर पूर्वी लखनऊ में काम करते हैं।\n\nPLACEHOLDER – यहाँ राहुल त्रिपाठी की अपनी कहानी आएगी: उन्होंने शुरुआत कैसे की, अच्छा काम करने के बारे में उनकी सोच क्या है, और उनके साथ काम करने पर ग्राहक को क्या मिलेगा।',
   },
   values: {

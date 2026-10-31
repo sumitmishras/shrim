@@ -60,7 +60,7 @@ export function ConsentField({ locale, checked, onChange, error }: { locale: Loc
         <input id={id} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} aria-invalid={!!error} aria-describedby={error ? `${id}-e` : undefined} className="mt-1 size-6 shrink-0 accent-[var(--accent)]" />
         <label htmlFor={id} className="min-h-[44px] flex-1 py-1 text-sm leading-snug">
           {t.consentBefore}
-          <Link href={localePath(locale, '/privacy-policy')} target="_blank" rel="noopener noreferrer" className="text-accent underline underline-offset-2">{t.consentLink}</Link>
+          <Link href={localePath(locale, '/privacy-policy')} target="_blank" rel="noopener noreferrer" className="text-accent-text underline underline-offset-2">{t.consentLink}</Link>
           {t.consentAfter}
         </label>
       </div>

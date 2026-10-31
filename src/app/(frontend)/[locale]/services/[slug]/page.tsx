@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getDictionary, serviceSlugs } from '@/i18n/dictionary'
 import { getFaqs, getProjects, getRates, getService, getTestimonials, priceFor } from '@/lib/data'
 import { priceLabel } from '@/lib/format'
+import { cardGrid } from '@/lib/grid'
 import { getLocale } from '@/lib/locale'
 import { img } from '@/lib/media'
 import { pageMeta } from '@/lib/meta'
@@ -18,6 +19,10 @@ import { Section, SectionHead } from '@/components/Section'
 import { Testimonials } from '@/components/Testimonials'
 import { Crumbs, JsonLd } from '@/components/JsonLd'
 import { articleLd, faqLd, serviceLd } from '@/lib/jsonld'
+
+export function generateStaticParams() {
+  return []
+}
 
 type P = { params: Promise<{ locale: string; slug: string }> }
 
@@ -54,9 +59,16 @@ export default async function ServicePage({ params }: P) {
       <section className="border-b border-line">
         <div className="container-x grid gap-10 py-12 md:py-20 lg:grid-cols-[1.4fr_1fr] lg:items-start">
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent">{svc.title}</p>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent-text">{svc.title}</p>
             <h1 className="font-display text-4xl font-bold leading-tight md:text-5xl">{svc.heroHeadline || svc.title}</h1>
             {svc.heroSub && <p className="mt-4 max-w-2xl text-lg text-muted">{svc.heroSub}</p>}
+            {!!svc.inclusions?.length && (
+              <ul className="mt-8 grid max-w-2xl gap-x-8 gap-y-2 sm:grid-cols-2">
+                {svc.inclusions.slice(0, 4).map((it, i) => (
+                  <li key={it.id ?? i} className="flex gap-3 text-[15px]"><span aria-hidden className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs text-accent-text">✓</span>{it.text}</li>
+                ))}
+              </ul>
+            )}
             <ContactButtons locale={locale} s={s} context={slug} className="mt-7 lg:hidden" />
             {hero && (
               <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-3xl border border-line">
@@ -92,7 +104,7 @@ export default async function ServicePage({ params }: P) {
           <ul className="grid gap-x-10 gap-y-3 md:grid-cols-2">
             {svc.inclusions.map((it, i) => (
               <li key={it.id ?? i} className="flex gap-3 border-b border-line py-3">
-                <span aria-hidden className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs text-accent">✓</span>
+                <span aria-hidden className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs text-accent-text">✓</span>
                 {it.text}
               </li>
             ))}
@@ -130,7 +142,7 @@ export default async function ServicePage({ params }: P) {
       {projects.docs.length > 0 && (
         <Section tone="surface">
           <SectionHead title={sp.projects} />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={cardGrid(projects.docs.length)}>
             {projects.docs.map((p, i) => <ProjectCard key={p.id} project={p} locale={locale} index={i} />)}
           </div>
         </Section>

@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+import { globalAfterChangeRevalidate } from '../lib/revalidate'
 import { hideFromStaff, isAdmin } from '../access'
 
 export const AboutPage: GlobalConfig = {
@@ -6,6 +7,7 @@ export const AboutPage: GlobalConfig = {
   label: 'About page',
   admin: { hidden: hideFromStaff, group: 'Content' },
   access: { read: () => true, update: isAdmin },
+  hooks: { afterChange: [globalAfterChangeRevalidate] },
   fields: [
     { name: 'headline', type: 'text', localized: true },
     { name: 'story', type: 'textarea', localized: true, admin: { description: 'Rahul Tripathi’s story. Leave a blank line between paragraphs.' } },

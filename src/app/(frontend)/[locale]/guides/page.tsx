@@ -39,7 +39,7 @@ export default async function GuidesPage({ params }: P) {
                   <div className="flex flex-1 flex-col p-5">
                     <h2 className="font-display text-lg font-semibold">{g.title}</h2>
                     {g.excerpt && <p className="mt-2 flex-1 text-sm text-muted">{g.excerpt}</p>}
-                    <span className="mt-4 inline-flex min-h-[44px] items-center text-sm font-semibold text-accent">{t.read} →</span>
+                    <span className="mt-4 inline-flex min-h-[44px] items-center text-sm font-semibold text-accent-text">{t.read} →</span>
                   </div>
                 </Link>
               </Reveal>

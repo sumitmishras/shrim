@@ -34,8 +34,8 @@ export default async function ContactPage({ params }: P) {
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
             <dl>
-              {row(c.phone, hasPhone ? <a href={telHref(s.phone)} data-track="call_click" className="inline-flex min-h-[44px] items-center hover:text-accent">{s.phone}</a> : <span className="text-muted">{t.phoneSoon}</span>)}
-              {row(c.email, <a href={`mailto:${s.email}`} className="inline-flex min-h-[44px] items-center break-all hover:text-accent">{s.email}</a>)}
+              {row(c.phone, hasPhone ? <a href={telHref(s.phone)} data-track="call_click" className="inline-flex min-h-[44px] items-center hover:text-accent-text">{s.phone}</a> : <span className="text-muted">{t.phoneSoon}</span>)}
+              {row(c.email, <a href={`mailto:${s.email}`} className="inline-flex min-h-[44px] items-center break-all hover:text-accent-text">{s.email}</a>)}
               {row(c.address, s.showFullAddress ? s.addressFull : s.addressShort)}
               {s.officeHours && row(c.hours, s.officeHours)}
             </dl>

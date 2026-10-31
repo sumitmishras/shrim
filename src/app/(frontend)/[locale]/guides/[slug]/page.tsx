@@ -18,6 +18,10 @@ import { Section } from '@/components/Section'
 import { Crumbs, JsonLd } from '@/components/JsonLd'
 import { articleLd, faqLd, serviceLd } from '@/lib/jsonld'
 
+export function generateStaticParams() {
+  return []
+}
+
 type P = { params: Promise<{ locale: string; slug: string }> }
 
 export async function generateMetadata({ params }: P): Promise<Metadata> {
@@ -62,7 +66,7 @@ export default async function GuidePage({ params }: P) {
       <JsonLd data={articleLd({ locale, slug, title: g.title, description: g.metaDescription || g.excerpt, image: cover?.src, author: g.author || 'Rahul Tripathi', published: g.publishedAt, modified: g.updatedAt })} />
       <section className="border-b border-line">
         <div className="container-x py-12 md:py-16">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent"><Link href={localePath(locale, '/guides')} className="hover:underline">{t.guides.title}</Link></p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent-text"><Link href={localePath(locale, '/guides')} className="hover:underline">{t.guides.title}</Link></p>
           <h1 className="max-w-3xl font-display text-3xl font-bold leading-tight md:text-5xl">{g.title}</h1>
           <p className="mt-4 text-sm text-muted">{t.guides.by} {g.author}{date && <> · <time dateTime={g.publishedAt!}>{date}</time></>}</p>
         </div>
@@ -73,7 +77,7 @@ export default async function GuidePage({ params }: P) {
           <nav aria-label={t.guides.toc} className="mb-10 max-w-2xl rounded-3xl border border-line bg-surface p-6">
             <p className="font-display font-semibold">{t.guides.toc}</p>
             <ol className="mt-3 space-y-1">
-              {toc.map((h) => <li key={h.id} className={h.level === 3 ? 'pl-4' : ''}><a href={`#${h.id}`} className="inline-flex min-h-[44px] items-center text-muted hover:text-accent">{h.text}</a></li>)}
+              {toc.map((h) => <li key={h.id} className={h.level === 3 ? 'pl-4' : ''}><a href={`#${h.id}`} className="inline-flex min-h-[44px] items-center text-muted hover:text-accent-text">{h.text}</a></li>)}
             </ol>
           </nav>
         )}

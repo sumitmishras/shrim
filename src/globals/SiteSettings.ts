@@ -1,9 +1,11 @@
 import type { GlobalConfig } from 'payload'
+import { globalAfterChangeRevalidate } from '../lib/revalidate'
 import { hideFromStaff, isAdmin } from '../access'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'siteSettings',
   access: { read: () => true, update: isAdmin },
+  hooks: { afterChange: [globalAfterChangeRevalidate] },
   admin: { hidden: hideFromStaff, group: 'Settings' },
   fields: [
     { name: 'phone', type: 'text', defaultValue: 'PLACEHOLDER', admin: { description: 'Display phone, e.g. +91 98XXXXXXXX' } },

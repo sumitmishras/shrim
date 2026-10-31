@@ -7,9 +7,10 @@ import type { Project } from '@/payload-types'
 import { Photo } from './Photo'
 import { Reveal } from './Reveal'
 
-export function ProjectCard({ project, locale, index = 0 }: { project: Project; locale: Locale; index?: number }) {
+export function ProjectCard({ project, locale, index = 0, level = 3 }: { project: Project; locale: Locale; index?: number; level?: 2 | 3 }) {
   const cover = rows(project.afterImages)[0] ?? rows(project.gallery)[0] ?? rows(project.beforeImages)[0] ?? img(null)
   const svc = serviceOf(project)
+  const Heading = level === 2 ? 'h2' : 'h3'
   return (
     <Reveal delay={(index % 3) * 0.06} className="h-full">
       <Link href={localePath(locale, `/projects/${project.slug}`)} className="card group flex h-full flex-col overflow-hidden transition duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -17,8 +18,8 @@ export function ProjectCard({ project, locale, index = 0 }: { project: Project; 
           <Photo image={cover} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="transition-transform duration-500 group-hover:scale-105" />
         </div>
         <div className="p-5">
-          <p className="text-xs font-medium uppercase tracking-wider text-accent">{tag(project.area, project.builtUpArea, svc?.title)}</p>
-          <h3 className="mt-2 font-display text-lg font-semibold">{project.title}</h3>
+          <p className="text-xs font-medium uppercase tracking-wider text-accent-text">{tag(project.area, project.builtUpArea, svc?.title)}</p>
+          <Heading className="mt-2 font-display text-lg font-semibold">{project.title}</Heading>
         </div>
       </Link>
     </Reveal>

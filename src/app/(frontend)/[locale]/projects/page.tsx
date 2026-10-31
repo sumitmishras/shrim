@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { localePath } from '@/i18n/config'
 import { areaName, getDictionary } from '@/i18n/dictionary'
 import { getProjectAreas, getProjects, getServices } from '@/lib/data'
+import { cardGrid } from '@/lib/grid'
 import { getLocale } from '@/lib/locale'
 import { pageMeta } from '@/lib/meta'
 import { getSiteSettings } from '@/lib/site'
@@ -10,6 +11,9 @@ import { LeadCta } from '@/components/LeadCta'
 import { ProjectCard } from '@/components/ProjectCard'
 import { PageHero, Section } from '@/components/Section'
 import { Crumbs, JsonLd } from '@/components/JsonLd'
+
+// Reads the URL's query string (filters, prefill, reference), so it is rendered fresh for each visit instead of cached.
+export const dynamic = 'force-dynamic'
 
 type P = { params: Promise<{ locale: string }>; searchParams: Promise<{ service?: string; area?: string; page?: string }> }
 
@@ -67,8 +71,8 @@ export default async function ProjectsPage({ params, searchParams }: P) {
         {res.docs.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-line p-10 text-center text-muted">{filtered ? pt.emptyFiltered : pt.empty}</p>
         ) : (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {res.docs.map((p, i) => <ProjectCard key={p.id} project={p} locale={locale} index={i} />)}
+          <div className={cardGrid(res.docs.length)}>
+            {res.docs.map((p, i) => <ProjectCard key={p.id} project={p} locale={locale} index={i} level={2} />)}
           </div>
         )}
         {res.totalPages > 1 && (

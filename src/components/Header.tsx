@@ -21,14 +21,14 @@ export function Header({ locale }: { locale: Locale }) {
     <header className="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between gap-4">
         <Logo locale={locale} tagline={t.tagline} compact />
-        <nav aria-label="Main" className="hidden items-center gap-6 text-sm lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-5 whitespace-nowrap text-sm xl:flex">
           {links.map((l) => (
             <Link key={l.href} href={l.href} className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-muted transition-colors hover:text-ink">{l.label}</Link>
           ))}
         </nav>
         <div className="flex items-center gap-3">
           <LangSwitch locale={locale} label={t.switchTo} />
-          <Link href={localePath(locale, '/site-visit')} data-track="cta_click" className="btn btn-primary hidden sm:inline-flex">{t.bookVisit}</Link>
+          <Link href={localePath(locale, '/site-visit')} data-track="cta_click" className="btn btn-primary hidden whitespace-nowrap sm:inline-flex">{t.bookVisitHeader}</Link>
           <MobileNav links={links} cta={{ href: localePath(locale, '/site-visit'), label: t.bookVisit }} />
         </div>
       </div>

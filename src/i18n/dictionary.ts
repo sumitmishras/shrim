@@ -3,6 +3,7 @@ import type { Locale } from './config'
 const en = {
   bookVisit: 'Book a Free Site Visit',
   bookVisitShort: 'Site Visit',
+  bookVisitHeader: 'Book Site Visit',
   call: 'Call',
   callNow: 'Call now',
   whatsapp: 'WhatsApp',
@@ -28,7 +29,7 @@ const en = {
     after: 'After',
     calcTitle: 'Apne plot ka kharcha 30 second mein jaaniye',
     calcSub: 'Enter your area and floors for a quick range. No phone number needed.',
-    area: 'Area of one floor (sq ft)',
+    area: 'Area per floor (sq ft)',
     floors: 'Floors',
     floorOptions: ['1 floor', '2 floors', '3 floors', '4 floors'],
     processTitle: 'How we work',
@@ -203,6 +204,7 @@ const en = {
 const hi: typeof en = {
   bookVisit: 'फ्री साइट विज़िट बुक करें',
   bookVisitShort: 'साइट विज़िट',
+  bookVisitHeader: 'साइट विज़िट बुक करें',
   call: 'कॉल',
   callNow: 'अभी कॉल करें',
   whatsapp: 'व्हाट्सऐप',
@@ -228,7 +230,7 @@ const hi: typeof en = {
     after: 'बाद में',
     calcTitle: 'अपने प्लॉट का खर्चा 30 सेकंड में जानिए',
     calcSub: 'एरिया और मंज़िलें भरिए, मोटा अंदाज़ा मिल जाएगा। फ़ोन नंबर देने की ज़रूरत नहीं।',
-    area: 'एक मंज़िल का एरिया (sq ft)',
+    area: 'हर मंज़िल का एरिया (sq ft)',
     floors: 'मंज़िलें',
     floorOptions: ['1 मंज़िल', '2 मंज़िल', '3 मंज़िल', '4 मंज़िल'],
     processTitle: 'हम कैसे काम करते हैं',

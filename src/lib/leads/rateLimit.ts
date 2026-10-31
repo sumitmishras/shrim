@@ -20,3 +20,16 @@ export function consume(key: string, limit: number, windowMs: number): { ok: boo
 export function clientIp(h: Headers) {
   return h.get('x-forwarded-for')?.split(',')[0].trim() || h.get('x-real-ip') || 'local'
 }
+
+/** Read-only check: has this key already used up its allowance in the window? */
+export function isLimited(key: string, limit: number, windowMs: number) {
+  const now = Date.now()
+  return (store.get(key) ?? []).filter((t) => now - t < windowMs).length >= limit
+}
+/** Record one hit (used for failed logins). */
+export function record(key: string, windowMs: number) {
+  const now = Date.now()
+  const hits = (store.get(key) ?? []).filter((t) => now - t < windowMs)
+  hits.push(now)
+  store.set(key, hits)
+}

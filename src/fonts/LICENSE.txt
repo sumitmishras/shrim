@@ -1,0 +1,7 @@
+NotoSansDevanagari-subset.woff2
+
+Derived from "Noto Sans Devanagari" (Copyright 2022 The Noto Project Authors, https://github.com/notofonts/devanagari),
+licensed under the SIL Open Font License, Version 1.1 (https://openfontlicense.org).
+
+Changes: reduced to the Devanagari Unicode block (U+0900-097F) plus common punctuation, and the weight axis limited to 400-700,
+to make the file smaller. The OFL allows this modification and redistribution.

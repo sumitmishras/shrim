@@ -20,8 +20,9 @@ export function Counter({ value }: { value: string }) {
 
   if (!m) return <span>{value}</span>
   return (
-    <span ref={ref} aria-label={value}>
+    <span ref={ref}>
       <span aria-hidden>{m[1]}{n.toLocaleString('en-IN')}{m[3]}</span>
+      <span className="sr-only">{value}</span>
     </span>
   )
 }

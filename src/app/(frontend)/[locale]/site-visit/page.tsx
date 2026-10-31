@@ -8,6 +8,9 @@ import { SiteVisitForm } from '@/components/forms/SiteVisitForm'
 import { PageHero, Section } from '@/components/Section'
 import { Crumbs, JsonLd } from '@/components/JsonLd'
 
+// Reads the URL's query string (filters, prefill, reference), so it is rendered fresh for each visit instead of cached.
+export const dynamic = 'force-dynamic'
+
 type P = { params: Promise<{ locale: string }>; searchParams: Promise<{ service?: string }> }
 
 export async function generateMetadata({ params }: P): Promise<Metadata> {

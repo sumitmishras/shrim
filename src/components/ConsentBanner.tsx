@@ -46,7 +46,7 @@ export function ConsentBanner({ locale }: { locale: Locale }) {
         <p className="font-display text-lg font-semibold">{c.title}</p>
         <p className="mt-1 text-sm text-muted">
           {c.text}{' '}
-          <Link href={localePath(locale, '/privacy-policy')} className="text-accent underline underline-offset-2">{getDictionary(locale).footer.privacy}</Link>
+          <Link href={localePath(locale, '/privacy-policy')} className="text-accent-text underline underline-offset-2">{getDictionary(locale).footer.privacy}</Link>
         </p>
         {custom && (
           <div className="mt-3 space-y-1 border-t border-line pt-3">

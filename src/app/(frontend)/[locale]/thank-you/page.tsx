@@ -1,12 +1,16 @@
 import type { Metadata } from 'next'
 import { getDictionary } from '@/i18n/dictionary'
 import { getProjects } from '@/lib/data'
+import { cardGrid } from '@/lib/grid'
 import { getLocale } from '@/lib/locale'
 import { pageMeta } from '@/lib/meta'
 import { getSiteSettings, isPlaceholder, waHref } from '@/lib/site'
 import { ContactButtons } from '@/components/ContactButtons'
 import { ProjectCard } from '@/components/ProjectCard'
 import { Section, SectionHead } from '@/components/Section'
+
+// Reads the URL's query string (filters, prefill, reference), so it is rendered fresh for each visit instead of cached.
+export const dynamic = 'force-dynamic'
 
 type P = { params: Promise<{ locale: string }>; searchParams: Promise<{ ref?: string }> }
 
@@ -28,7 +32,7 @@ export default async function ThankYouPage({ params, searchParams }: P) {
     <>
       <section className="border-b border-line">
         <div className="container-x py-14 md:py-20">
-          <div aria-hidden className="mb-5 flex size-14 items-center justify-center rounded-full bg-accent/15 text-2xl text-accent">✓</div>
+          <div aria-hidden className="mb-5 flex size-14 items-center justify-center rounded-full bg-accent/15 text-2xl text-accent-text">✓</div>
           <h1 className="max-w-3xl font-display text-4xl font-bold leading-tight md:text-5xl">{th.title}</h1>
           {ref && (
             <p className="mt-6">
@@ -37,7 +41,7 @@ export default async function ThankYouPage({ params, searchParams }: P) {
             </p>
           )}
           <div className="mt-8 max-w-xl rounded-3xl border border-line bg-surface p-6">
-            <p className="text-xs font-semibold uppercase tracking-wider text-accent">{th.next}</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-accent-text">{th.next}</p>
             <p className="mt-2 font-display text-xl font-semibold">{s.thankYouPromise}</p>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -51,7 +55,7 @@ export default async function ThankYouPage({ params, searchParams }: P) {
       {projects.docs.length > 0 && (
         <Section>
           <SectionHead title={th.similar} />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={cardGrid(projects.docs.length)}>
             {projects.docs.map((p, i) => <ProjectCard key={p.id} project={p} locale={locale} index={i} />)}
           </div>
         </Section>
