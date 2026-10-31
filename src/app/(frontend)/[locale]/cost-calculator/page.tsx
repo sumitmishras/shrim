@@ -6,6 +6,7 @@ import { pageMeta } from '@/lib/meta'
 import { CALC_LIMITS } from '@/lib/leads/options'
 import { CalculatorForm } from '@/components/forms/CalculatorForm'
 import { PageHero, Section } from '@/components/Section'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
 
 type P = { params: Promise<{ locale: string }>; searchParams: Promise<{ area?: string; floors?: string }> }
 
@@ -26,6 +27,7 @@ export default async function CalculatorPage({ params, searchParams }: P) {
   const floors = parseInt(q.floors ?? '', 10)
   return (
     <>
+      <Crumbs locale={locale} trail={[{ name: t.nav.calculator, path: '/cost-calculator' }]} />
       <PageHero title={t.quick.calcTitle} sub={locale === 'hi' ? 'कुछ चीज़ें भरिए, तुरंत मोटा अंदाज़ा मिल जाएगा। फ़ोन नंबर की ज़रूरत नहीं।' : 'Enter a few details and get an instant range. No phone number needed.'} />
       <Section>
         <CalculatorForm

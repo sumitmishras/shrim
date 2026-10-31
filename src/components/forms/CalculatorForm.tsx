@@ -64,7 +64,7 @@ export function CalculatorForm({ locale, rates, initialArea, initialFloors, samp
         extras: inp.service === 'new-construction' ? inp.extras : [], locality: inp.locality && inp.locality !== '__other' ? inp.locality : undefined,
       })
       if (res.ok) {
-        track('generate_lead', { form_name: 'calculator', service: inp.service, source_page: location.pathname, lead_score_band: res.band })
+        track('generate_lead', { form_name: 'calculator', service: inp.service, source_page: location.pathname, lead_score_band: res.band, event_id: res.reference })
         router.push(localePath(locale, res.reference ? `/thank-you?ref=${res.reference}` : '/thank-you'))
       } else if (res.code === 'invalid' && res.errors) { setErrors(res.errors); setFormError(f.err.fix) }
       else setFormError(res.code === 'rate_limited' ? f.err.rate_limited : f.err.server)

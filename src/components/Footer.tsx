@@ -3,8 +3,9 @@ import { localePath, type Locale } from '@/i18n/config'
 import { areaName, getDictionary, priorityAreas, serviceSlugs } from '@/i18n/dictionary'
 import { isPlaceholder, type SiteSettings } from '@/lib/site'
 import { Logo } from './Logo'
+import { CookieSettingsButton } from './ConsentBanner'
 
-export function Footer({ locale, s }: { locale: Locale; s: SiteSettings }) {
+export function Footer({ locale, s, cookieSettings = false }: { locale: Locale; s: SiteSettings; cookieSettings?: boolean }) {
   const t = getDictionary(locale)
   const social = Object.entries(s.social || {}).filter(([, v]) => v)
   return (
@@ -31,6 +32,7 @@ export function Footer({ locale, s }: { locale: Locale; s: SiteSettings }) {
           <span>{s.showFullAddress ? s.addressFull : s.addressShort}</span>
           <Link href={localePath(locale, '/privacy-policy')}>{t.footer.privacy}</Link>
           <Link href={localePath(locale, '/terms')}>{t.footer.terms}</Link>
+          {cookieSettings && <CookieSettingsButton label={t.consent.settings} />}
         </FooterCol>
       </div>
       <div className="border-t border-line py-5 text-center text-xs text-muted">

@@ -7,6 +7,7 @@ import { ContactButtons } from '@/components/ContactButtons'
 import { ShortLeadForm } from '@/components/forms/ShortLeadForm'
 import { MapEmbed } from '@/components/MapEmbed'
 import { PageHero, Section } from '@/components/Section'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
 
 type P = { params: Promise<{ locale: string }> }
 
@@ -27,6 +28,7 @@ export default async function ContactPage({ params }: P) {
   )
   return (
     <>
+      <Crumbs locale={locale} trail={[{ name: t.nav.contact, path: '/contact' }]} />
       <PageHero title={c.title} sub={c.sub} />
       <Section>
         <div className="grid gap-10 lg:grid-cols-2">

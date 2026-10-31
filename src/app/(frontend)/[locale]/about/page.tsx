@@ -11,6 +11,7 @@ import { Photo } from '@/components/Photo'
 import { ProcessSection } from '@/components/ProcessSection'
 import { Reveal } from '@/components/Reveal'
 import { PageHero, Section, SectionHead } from '@/components/Section'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
 
 type P = { params: Promise<{ locale: string }> }
 
@@ -30,6 +31,7 @@ export default async function AboutPage({ params }: P) {
 
   return (
     <>
+      <Crumbs locale={locale} trail={[{ name: t.nav.about, path: '/about' }]} />
       <PageHero title={a.headline || t.about.title} sub={t.about.sub} eyebrow={t.about.title} />
       <Section>
         <div className="grid items-start gap-10 lg:grid-cols-[1.4fr_1fr]">

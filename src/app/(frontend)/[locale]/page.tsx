@@ -20,6 +20,8 @@ import { Section, SectionHead } from '@/components/Section'
 import { ServiceCard } from '@/components/ServiceCard'
 import { Testimonials } from '@/components/Testimonials'
 import { TrustStrip } from '@/components/TrustStrip'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
+import { articleLd, faqLd, serviceLd } from '@/lib/jsonld'
 
 type P = { params: Promise<{ locale: string }> }
 
@@ -48,6 +50,7 @@ export default async function Home({ params }: P) {
 
   return (
     <>
+      <JsonLd data={faqLd(faqs.map((f) => ({ question: f.question, answer: f.answer })))} />
       <Hero locale={locale} s={s} />
       <TrustStrip locale={locale} s={s} />
 

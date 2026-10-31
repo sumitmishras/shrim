@@ -9,6 +9,7 @@ import { getSiteSettings } from '@/lib/site'
 import { LeadCta } from '@/components/LeadCta'
 import { ProjectCard } from '@/components/ProjectCard'
 import { PageHero, Section } from '@/components/Section'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
 
 type P = { params: Promise<{ locale: string }>; searchParams: Promise<{ service?: string; area?: string; page?: string }> }
 
@@ -42,6 +43,7 @@ export default async function ProjectsPage({ params, searchParams }: P) {
 
   return (
     <>
+      <Crumbs locale={locale} trail={[{ name: t.nav.projects, path: '/projects' }]} />
       <PageHero title={pt.title} sub={pt.sub} />
       <Section>
         {(areas.length > 0 || res.totalDocs > 0 || filtered) && (

@@ -6,6 +6,7 @@ import { getSiteSettings, isPlaceholder } from '@/lib/site'
 import { ContactButtons } from '@/components/ContactButtons'
 import { SiteVisitForm } from '@/components/forms/SiteVisitForm'
 import { PageHero, Section } from '@/components/Section'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
 
 type P = { params: Promise<{ locale: string }>; searchParams: Promise<{ service?: string }> }
 
@@ -22,6 +23,7 @@ export default async function SiteVisitPage({ params, searchParams }: P) {
   const s = await getSiteSettings(locale)
   return (
     <>
+      <Crumbs locale={locale} trail={[{ name: t.quick.siteVisitTitle, path: '/site-visit' }]} />
       <PageHero title={t.quick.siteVisitTitle} sub={locale === 'hi' ? 'चार छोटे स्टेप। कोई चार्ज नहीं, कोई मजबूरी नहीं।' : 'Four short steps. No charge, no obligation.'} />
       <Section>
         <SiteVisitForm locale={locale} initialService={service} />

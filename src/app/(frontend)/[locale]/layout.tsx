@@ -3,6 +3,11 @@ import { notFound } from 'next/navigation'
 import { Inter, Noto_Sans_Devanagari, Space_Grotesk } from 'next/font/google'
 import { isLocale } from '@/i18n/config'
 import { getSiteSettings, SITE_URL } from '@/lib/site'
+import { getGtmId } from '@/lib/tracking'
+import { organizationLd } from '@/lib/jsonld'
+import { TrackingNoscript, TrackingScripts } from '@/components/Tracking'
+import { ConsentBanner } from '@/components/ConsentBanner'
+import { JsonLd } from '@/components/JsonLd'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { StickyContactBar } from '@/components/StickyContactBar'
@@ -29,16 +34,20 @@ export const dynamic = 'force-dynamic'
 export default async function LocaleLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
   const { locale } = await params
   if (!isLocale(locale)) notFound()
-  const s = await getSiteSettings(locale)
+  const [s, gtmId] = await Promise.all([getSiteSettings(locale), getGtmId()])
   return (
     <html lang={locale} className={`${display.variable} ${body.variable} ${deva.variable}`}>
       <body className="min-h-dvh font-sans">
+        {gtmId && <TrackingNoscript gtmId={gtmId} />}
+        <JsonLd data={organizationLd(s, locale)} />
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink">Skip to content</a>
         <Header locale={locale} />
         <main id="main">{children}</main>
-        <Footer locale={locale} s={s} />
+        <Footer locale={locale} s={s} cookieSettings={!!gtmId} />
         <StickyContactBar locale={locale} s={s} />
         <ClientBoot />
+        {gtmId && <ConsentBanner locale={locale} />}
+        {gtmId && <TrackingScripts gtmId={gtmId} />}
       </body>
     </html>
   )

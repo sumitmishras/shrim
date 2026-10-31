@@ -12,6 +12,7 @@ import { LeadCta } from '@/components/LeadCta'
 import { Lightbox } from '@/components/Lightbox'
 import { Section, SectionHead } from '@/components/Section'
 import { Testimonials } from '@/components/Testimonials'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
 
 type P = { params: Promise<{ locale: string; slug: string }> }
 
@@ -50,6 +51,7 @@ export default async function ProjectPage({ params }: P) {
 
   return (
     <>
+      <Crumbs locale={locale} trail={[{ name: t.nav.projects, path: '/projects' }, { name: p.title, path: `/projects/${slug}` }]} />
       <section className="border-b border-line">
         <div className="container-x py-12 md:py-16">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent">{svc?.title}</p>

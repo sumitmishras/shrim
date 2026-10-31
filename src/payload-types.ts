@@ -1024,6 +1024,20 @@ export interface SiteSetting {
      */
     image?: (number | null) | Media;
   };
+  seo?: {
+    /**
+     * For Google, in this format: Mo-Sa 09:30-18:30. Keep in step with “Office hours” above.
+     */
+    openingHoursSpec?: string | null;
+    /**
+     * From Google Maps: right-click the office pin and copy the first number, e.g. 26.9001
+     */
+    geoLat?: number | null;
+    /**
+     * The second number, e.g. 81.0212
+     */
+    geoLng?: number | null;
+  };
   thankYouPromise?: string | null;
   stats?: {
     yearsExperience?: string | null;
@@ -1168,6 +1182,13 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         video?: T;
         poster?: T;
         image?: T;
+      };
+  seo?:
+    | T
+    | {
+        openingHoursSpec?: T;
+        geoLat?: T;
+        geoLng?: T;
       };
   thankYouPromise?: T;
   stats?:

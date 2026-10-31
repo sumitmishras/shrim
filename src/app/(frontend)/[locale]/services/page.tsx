@@ -7,6 +7,7 @@ import { getSiteSettings } from '@/lib/site'
 import { LeadCta } from '@/components/LeadCta'
 import { PageHero, Section } from '@/components/Section'
 import { ServiceCard } from '@/components/ServiceCard'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
 
 type P = { params: Promise<{ locale: string }> }
 
@@ -22,6 +23,7 @@ export default async function ServicesPage({ params }: P) {
   const [s, services] = await Promise.all([getSiteSettings(locale), getServices(locale)])
   return (
     <>
+      <Crumbs locale={locale} trail={[{ name: t.nav.services, path: '/services' }]} />
       <PageHero title={t.servicesPage.title} sub={t.servicesPage.sub} />
       <Section>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

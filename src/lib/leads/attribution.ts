@@ -9,15 +9,17 @@ const cookieSchema = z.object({
   device: z.enum(['mobile', 'tablet', 'desktop']).optional().catch(undefined),
 })
 
+export type Attribution = z.infer<typeof cookieSchema>
+
 /** Reads the first-party attribution cookie. Anything malformed is ignored, never trusted. */
-export async function readAttribution() {
+export async function readAttribution(): Promise<Attribution> {
   try {
     const raw = (await cookies()).get(ATTR_COOKIE)?.value
-    if (!raw) return {}
+    if (!raw) return {} as Attribution
     const p = cookieSchema.parse(JSON.parse(decodeURIComponent(raw)))
     const t = p.firstVisitAt && !Number.isNaN(Date.parse(p.firstVisitAt)) ? new Date(p.firstVisitAt).toISOString() : undefined
     return { ...p, firstVisitAt: t }
   } catch {
-    return {}
+    return {} as Attribution
   }
 }

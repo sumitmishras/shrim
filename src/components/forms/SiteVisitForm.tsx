@@ -68,7 +68,7 @@ export function SiteVisitForm({ locale, initialService = '' }: { locale: Locale;
         name: s.name, phone: s.phone, email: s.email, visitDate: s.visitDate, visitSlot: s.visitSlot, consent: s.consent, website: s.website,
       })
       if (res.ok) {
-        const p = { service: s.service, source_page: location.pathname, lead_score_band: res.band }
+        const p = { service: s.service, source_page: location.pathname, lead_score_band: res.band, event_id: res.reference }
         track('generate_lead', { form_name: 'site_visit', ...p })
         track('site_visit_booked', p)
         router.push(localePath(locale, res.reference ? `/thank-you?ref=${res.reference}` : '/thank-you'))

@@ -16,6 +16,8 @@ import { ProjectCard } from '@/components/ProjectCard'
 import { Reveal } from '@/components/Reveal'
 import { Section, SectionHead } from '@/components/Section'
 import { Testimonials } from '@/components/Testimonials'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
+import { articleLd, faqLd, serviceLd } from '@/lib/jsonld'
 
 type P = { params: Promise<{ locale: string; slug: string }> }
 
@@ -46,6 +48,9 @@ export default async function ServicePage({ params }: P) {
 
   return (
     <>
+      <Crumbs locale={locale} trail={[{ name: t.nav.services, path: '/services' }, { name: svc.title, path: `/services/${slug}` }]} />
+      <JsonLd data={serviceLd({ locale, slug, name: svc.title, description: svc.metaDescription || svc.summary, image: hero?.src })} />
+      <JsonLd data={faqLd(faqs.map((f) => ({ question: f.question, answer: f.answer })))} />
       <section className="border-b border-line">
         <div className="container-x grid gap-10 py-12 md:py-20 lg:grid-cols-[1.4fr_1fr] lg:items-start">
           <div>

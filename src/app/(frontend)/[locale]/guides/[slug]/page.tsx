@@ -15,6 +15,8 @@ import { LeadCta } from '@/components/LeadCta'
 import { Photo } from '@/components/Photo'
 import { Prose } from '@/components/Prose'
 import { Section } from '@/components/Section'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
+import { articleLd, faqLd, serviceLd } from '@/lib/jsonld'
 
 type P = { params: Promise<{ locale: string; slug: string }> }
 
@@ -56,6 +58,8 @@ export default async function GuidePage({ params }: P) {
 
   return (
     <>
+      <Crumbs locale={locale} trail={[{ name: t.nav.guides, path: '/guides' }, { name: g.title, path: `/guides/${slug}` }]} />
+      <JsonLd data={articleLd({ locale, slug, title: g.title, description: g.metaDescription || g.excerpt, image: cover?.src, author: g.author || 'Rahul Tripathi', published: g.publishedAt, modified: g.updatedAt })} />
       <section className="border-b border-line">
         <div className="container-x py-12 md:py-16">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent"><Link href={localePath(locale, '/guides')} className="hover:underline">{t.guides.title}</Link></p>

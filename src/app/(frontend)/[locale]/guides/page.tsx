@@ -9,6 +9,7 @@ import { pageMeta } from '@/lib/meta'
 import { Photo } from '@/components/Photo'
 import { Reveal } from '@/components/Reveal'
 import { PageHero, Section } from '@/components/Section'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
 
 type P = { params: Promise<{ locale: string }> }
 
@@ -24,6 +25,7 @@ export default async function GuidesPage({ params }: P) {
   const guides = await getGuides(locale)
   return (
     <>
+      <Crumbs locale={locale} trail={[{ name: t.title, path: '/guides' }]} />
       <PageHero title={t.title} sub={t.sub} />
       <Section>
         {guides.length === 0 ? (

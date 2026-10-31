@@ -10,6 +10,7 @@ const FALLBACK = {
   addressShort: 'Chinhat, Lucknow', showFullAddress: false, gstin: '09BAYPT7371Q2Z3',
   officeHours: 'Mon–Sat, 9:30 AM – 6:30 PM', thankYouPromise: 'Hum 30 minute ke andar call karenge',
   social: {} as Record<string, string | null | undefined>,
+  seo: { openingHoursSpec: 'Mo-Sa 09:30-18:30', geoLat: null as number | null, geoLng: null as number | null },
   stats: { yearsExperience: '7+', projectCount: '[PROJECT COUNT]' },
 }
 

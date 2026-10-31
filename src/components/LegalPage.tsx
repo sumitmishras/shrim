@@ -7,6 +7,7 @@ import { getSiteSettings } from '@/lib/site'
 import { LeadCta } from './LeadCta'
 import { Prose } from './Prose'
 import { PageHero, Section } from './Section'
+import { Crumbs, JsonLd } from '@/components/JsonLd'
 
 type Slug = 'commercial' | 'privacy-policy' | 'terms'
 
@@ -22,6 +23,7 @@ export async function TextPage({ locale, slug, cta }: { locale: Locale; slug: Sl
   const s = await getSiteSettings(locale)
   return (
     <>
+      <Crumbs locale={locale} trail={[{ name: p.title, path: `/${slug}` }]} />
       <PageHero title={p.title} sub={slug === 'commercial' ? p.intro ?? undefined : undefined} />
       <Section>
         {slug !== 'commercial' && p.intro && <p className="mb-8 max-w-2xl text-muted">{p.intro}</p>}

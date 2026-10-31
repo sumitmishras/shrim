@@ -34,6 +34,16 @@ export const SiteSettings: GlobalConfig = {
         { name: 'image', type: 'upload', relationTo: 'media', admin: { description: 'Used when there is no video' } },
       ],
     },
+    {
+      name: 'seo',
+      type: 'group',
+      label: 'Google / SEO details',
+      fields: [
+        { name: 'openingHoursSpec', type: 'text', defaultValue: 'Mo-Sa 09:30-18:30', admin: { description: 'For Google, in this format: Mo-Sa 09:30-18:30. Keep in step with “Office hours” above.' } },
+        { name: 'geoLat', type: 'number', label: 'Office latitude', admin: { description: 'From Google Maps: right-click the office pin and copy the first number, e.g. 26.9001' } },
+        { name: 'geoLng', type: 'number', label: 'Office longitude', admin: { description: 'The second number, e.g. 81.0212' } },
+      ],
+    },
     { name: 'thankYouPromise', type: 'text', localized: true, defaultValue: 'Hum 30 minute ke andar call karenge' },
     {
       name: 'stats',

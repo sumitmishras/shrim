@@ -1,8 +1,9 @@
 'use server'
 import { after } from 'next/server'
-import { headers } from 'next/headers'
+import { cookies, headers } from 'next/headers'
 import { getPayloadClient } from '../payload'
 import { sendLeadAlert } from '../telegram'
+import { sendMetaLead } from '../meta-capi'
 import { readAttribution } from './attribution'
 import { estimate, rateServiceKey, type RatesData } from './estimate'
 import { CONSENT_VERSION } from './options'
@@ -31,7 +32,8 @@ async function handle<T extends { consent: boolean }>(
   const parsed = parse(input)
   if (!parsed.ok) return { ok: false, code: 'invalid', errors: parsed.errors }
 
-  const ip = clientIp(await headers())
+  const hdrs = await headers()
+  const ip = clientIp(hdrs)
   if (!consume(`lead:${ip}`, LIMIT, WINDOW_MS).ok) return { ok: false, code: 'rate_limited' }
 
   try {
@@ -49,6 +51,15 @@ async function handle<T extends { consent: boolean }>(
       } as never,
     })
     after(() => sendLeadAlert(lead as never))
+    // Meta Conversions API: disabled by default; needs META_CAPI_ENABLED=true and the visitor's ads consent.
+    const ck = await cookies()
+    const f = fields as { phone?: string; email?: string; name?: string; source?: string }
+    const meta = {
+      eventId: lead.reference ?? undefined, phone: f.phone, email: f.email, name: f.name, source: f.source, url: hdrs.get('referer'), ip, ua: hdrs.get('user-agent'),
+      fbp: ck.get('_fbp')?.value, fbc: ck.get('_fbc')?.value ?? (attr.fbclid ? `fb.1.${Date.parse(attr.firstVisitAt ?? '') || Date.now()}.${attr.fbclid}` : undefined),
+      adsConsent: ck.get('shrim_ads_consent')?.value === '1',
+    }
+    after(() => sendMetaLead(meta))
     return { ok: true, reference: lead.reference ?? undefined, band: lead.scoreBand ?? undefined }
   } catch (e) {
     console.error('[lead] save failed:', e)
