@@ -112,7 +112,7 @@ export default async function Home({ params }: P) {
         </Section>
       )}
 
-      <LeadCta locale={locale} s={s} title={h.ctaTitle} sub={h.ctaSub} />
+      <LeadCta locale={locale} s={s} title={h.ctaTitle} sub={h.ctaSub} form={{ source: 'home' }} />
     </>
   )
 }

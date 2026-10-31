@@ -28,7 +28,7 @@ export function Header({ locale }: { locale: Locale }) {
         </nav>
         <div className="flex items-center gap-3">
           <LangSwitch locale={locale} label={t.switchTo} />
-          <Link href={localePath(locale, '/site-visit')} className="btn btn-primary hidden sm:inline-flex">{t.bookVisit}</Link>
+          <Link href={localePath(locale, '/site-visit')} data-track="cta_click" className="btn btn-primary hidden sm:inline-flex">{t.bookVisit}</Link>
           <MobileNav links={links} cta={{ href: localePath(locale, '/site-visit'), label: t.bookVisit }} />
         </div>
       </div>

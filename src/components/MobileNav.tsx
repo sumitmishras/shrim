@@ -18,7 +18,7 @@ export function MobileNav({ links, cta }: { links: { href: string; label: string
               <li key={l.href}><Link href={l.href} onClick={() => setOpen(false)} className="block min-h-[44px] py-3 text-lg">{l.label}</Link></li>
             ))}
           </ul>
-          <Link href={cta.href} onClick={() => setOpen(false)} className="btn btn-primary mt-3 w-full">{cta.label}</Link>
+          <Link href={cta.href} data-track="cta_click" onClick={() => setOpen(false)} className="btn btn-primary mt-3 w-full">{cta.label}</Link>
         </nav>
       )}
     </div>

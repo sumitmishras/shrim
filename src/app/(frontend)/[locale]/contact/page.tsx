@@ -4,6 +4,7 @@ import { getLocale } from '@/lib/locale'
 import { pageMeta } from '@/lib/meta'
 import { getSiteSettings, isPlaceholder, telHref } from '@/lib/site'
 import { ContactButtons } from '@/components/ContactButtons'
+import { ShortLeadForm } from '@/components/forms/ShortLeadForm'
 import { MapEmbed } from '@/components/MapEmbed'
 import { PageHero, Section } from '@/components/Section'
 
@@ -37,7 +38,10 @@ export default async function ContactPage({ params }: P) {
               {s.officeHours && row(c.hours, s.officeHours)}
             </dl>
             <ContactButtons locale={locale} s={s} className="mt-8" />
-            <p className="mt-6 text-sm text-muted">{c.formSoon}</p>
+            <div className="card mt-10 p-6 md:p-8">
+              <h2 className="mb-5 font-display text-2xl font-bold">{c.formTitle}</h2>
+              <ShortLeadForm locale={locale} source="contact" />
+            </div>
           </div>
           <div>
             <h2 className="mb-4 font-display text-2xl font-bold">{c.findUs}</h2>

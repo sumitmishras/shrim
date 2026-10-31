@@ -90,3 +90,13 @@ export function priceFor(rates: Awaited<ReturnType<typeof getRates>>, slug: stri
   const row = rates.rates?.find((r) => r.service === slug && r.tier === tier)
   return row?.rate ? { kind: 'sqft', amount: row.rate } : { kind: 'quote' }
 }
+
+import type { RatesData } from './leads/estimate'
+export function toRatesData(r: Awaited<ReturnType<typeof getRates>>): RatesData {
+  return {
+    rates: (r.rates ?? []).map((x) => ({ service: x.service, tier: x.tier, rate: x.rate })),
+    extras: (r.extras ?? []).map((x) => ({ key: x.key, label: x.label ?? x.key, pricing: x.pricing, value: x.value })),
+    breakdown: (r.breakdown ?? []).map((x) => ({ service: x.service, label: x.label, percent: x.percent })),
+    rangePercent: r.rangePercent ?? 10,
+  }
+}

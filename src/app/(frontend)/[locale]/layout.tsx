@@ -6,6 +6,7 @@ import { getSiteSettings, SITE_URL } from '@/lib/site'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { StickyContactBar } from '@/components/StickyContactBar'
+import { ClientBoot } from '@/components/ClientBoot'
 import './globals.css'
 
 const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
@@ -37,6 +38,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
         <main id="main">{children}</main>
         <Footer locale={locale} s={s} />
         <StickyContactBar locale={locale} s={s} />
+        <ClientBoot />
       </body>
     </html>
   )

@@ -60,7 +60,7 @@ export default async function ServicePage({ params }: P) {
             )}
           </div>
           <div className="hidden lg:sticky lg:top-24 lg:block">
-            <LeadCta locale={locale} s={s} variant="card" context={slug} title={sp.formTitle} sub={sp.formSub} />
+            <LeadCta locale={locale} s={s} variant="card" context={slug} title={sp.formTitle} sub={sp.formSub} form={{ source: 'service-page', detail: slug, service: slug }} />
           </div>
         </div>
       </section>
@@ -147,7 +147,7 @@ export default async function ServicePage({ params }: P) {
         </Section>
       )}
 
-      <LeadCta locale={locale} s={s} context={slug} title={t.home_.ctaTitle} sub={t.home_.ctaSub} />
+      <LeadCta locale={locale} s={s} context={slug} title={t.home_.ctaTitle} sub={t.home_.ctaSub} form={{ source: 'service-page', detail: slug, service: slug }} />
     </>
   )
 }

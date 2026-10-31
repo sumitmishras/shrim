@@ -1,5 +1,7 @@
 import type { CollectionBeforeChangeHook, CollectionConfig, Field } from 'payload'
 import { adminOnlyField, isAdmin, isAdminOrStaff } from '../access'
+import { deriveChannel } from '../lib/leads/channel'
+import { bandFor, computeScore } from '../lib/leads/score'
 
 export const leadStatuses = [
   { label: 'New', value: 'new' },
@@ -53,6 +55,21 @@ const stampNotes: CollectionBeforeChangeHook = ({ data, originalDoc, req }) => {
   return data
 }
 
+/** Auto score + Hot/Warm/Cold. A manual override (admin) replaces the score used for the label. */
+const scoreLead: CollectionBeforeChangeHook = ({ data, originalDoc }) => {
+  const m = { ...originalDoc, ...data }
+  data.score = computeScore(m)
+  data.scoreBand = bandFor(typeof m.scoreOverride === 'number' ? m.scoreOverride : data.score)
+  return data
+}
+
+/** Fills attribution.channel (Google Ads, Meta Ads, Organic, ...) from UTM / click ids / referrer. */
+const setChannel: CollectionBeforeChangeHook = ({ data, originalDoc }) => {
+  const a = { ...originalDoc?.attribution, ...data.attribution }
+  if (a && !a.channel) data.attribution = { ...a, channel: deriveChannel(a) }
+  return data
+}
+
 export const Leads: CollectionConfig = {
   slug: 'leads',
   admin: {
@@ -68,7 +85,7 @@ export const Leads: CollectionConfig = {
     update: isAdminOrStaff,
     delete: isAdmin, // staff cannot delete
   },
-  hooks: { beforeChange: [buildReference, auditStatus, stampNotes] },
+  hooks: { beforeChange: [buildReference, auditStatus, stampNotes, scoreLead, setChannel] },
   fields: [
     {
       type: 'tabs',
@@ -152,7 +169,7 @@ export const Leads: CollectionConfig = {
         {
           label: 'Source & attribution',
           fields: [
-            ro({ name: 'source', type: 'select', index: true, options: [{ label: 'Site visit form', value: 'site-visit' }, { label: 'Calculator', value: 'calculator' }, { label: 'Contact form', value: 'contact' }, { label: 'Service page', value: 'service-page' }, { label: 'Manual entry', value: 'manual' }] }),
+            ro({ name: 'source', type: 'select', index: true, options: [{ label: 'Site visit form', value: 'site-visit' }, { label: 'Calculator', value: 'calculator' }, { label: 'Contact form', value: 'contact' }, { label: 'Service page', value: 'service-page' }, { label: 'Home page form', value: 'home' }, { label: 'Manual entry', value: 'manual' }] }),
             ro({ name: 'sourceDetail', type: 'text', admin: { description: 'e.g. the service page name' } }),
             {
               name: 'attribution', type: 'group', access: locked,
@@ -163,7 +180,7 @@ export const Leads: CollectionConfig = {
                 { name: 'landingPage', type: 'text' }, { name: 'referrer', type: 'text' },
                 { name: 'firstVisitAt', type: 'date', admin: { date: { pickerAppearance: 'dayAndTime' } } },
                 { name: 'device', type: 'select', options: ['mobile', 'tablet', 'desktop'] },
-                { name: 'channel', type: 'select', index: true, options: [{ label: 'Google Ads', value: 'google-ads' }, { label: 'Meta Ads', value: 'meta-ads' }, { label: 'Organic', value: 'organic' }, { label: 'Google Business Profile', value: 'gbp' }, { label: 'Direct', value: 'direct' }, { label: 'WhatsApp', value: 'whatsapp' }, { label: 'Other', value: 'other' }], admin: { description: 'Derived from the fields above when the lead is saved (milestone 4)' } },
+                { name: 'channel', type: 'select', index: true, options: [{ label: 'Google Ads', value: 'google-ads' }, { label: 'Meta Ads', value: 'meta-ads' }, { label: 'Organic', value: 'organic' }, { label: 'Google Business Profile', value: 'gbp' }, { label: 'Direct', value: 'direct' }, { label: 'WhatsApp', value: 'whatsapp' }, { label: 'Other', value: 'other' }], admin: { description: 'Derived from the fields above when the lead is saved' } },
               ],
             },
             {

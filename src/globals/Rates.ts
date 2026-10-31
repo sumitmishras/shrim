@@ -38,7 +38,7 @@ export const Rates: GlobalConfig = {
       fields: [
         { name: 'key', type: 'select', required: true, options: ['parking', 'boundaryWall', 'basement'] },
         { name: 'label', type: 'text', required: true, localized: true },
-        { name: 'pricing', type: 'select', required: true, defaultValue: 'fixed', options: [{ label: 'Fixed amount (₹)', value: 'fixed' }, { label: '₹ per sq ft of built-up area', value: 'perSqft' }] },
+        { name: 'pricing', type: 'select', required: true, defaultValue: 'fixed', options: [{ label: 'Fixed amount (₹)', value: 'fixed' }, { label: '₹ per sq ft of one-floor area (footprint)', value: 'perSqft' }] },
         { name: 'value', type: 'number', required: true, min: 0 },
         { name: 'note', type: 'text' },
       ],

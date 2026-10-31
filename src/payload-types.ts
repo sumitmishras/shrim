@@ -212,7 +212,7 @@ export interface Lead {
     | number
     | boolean
     | null;
-  source?: ('site-visit' | 'calculator' | 'contact' | 'service-page' | 'manual') | null;
+  source?: ('site-visit' | 'calculator' | 'contact' | 'service-page' | 'home' | 'manual') | null;
   /**
    * e.g. the service page name
    */
@@ -230,7 +230,7 @@ export interface Lead {
     firstVisitAt?: string | null;
     device?: ('mobile' | 'tablet' | 'desktop') | null;
     /**
-     * Derived from the fields above when the lead is saved (milestone 4)
+     * Derived from the fields above when the lead is saved
      */
     channel?: ('google-ads' | 'meta-ads' | 'organic' | 'gbp' | 'direct' | 'whatsapp' | 'other') | null;
   };

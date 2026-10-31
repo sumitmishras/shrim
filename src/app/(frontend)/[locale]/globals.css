@@ -4,23 +4,23 @@
 
 :root {
   --bg: #f6f3ee; --surface: #ffffff; --ink: #1c1a17; --muted: #6b655c;
-  --accent: #c8792b; --accent-ink: #ffffff; --line: #e4ded4;
+  --accent: #c8792b; --accent-ink: #ffffff; --line: #e4ded4; --danger: #b3261e;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     --bg: #12110f; --surface: #1c1a17; --ink: #f1ece4; --muted: #a39b8f;
-    --accent: #e0954a; --accent-ink: #12110f; --line: #2e2a25;
+    --accent: #e0954a; --accent-ink: #12110f; --line: #2e2a25; --danger: #f2867f;
   }
 }
 :root[data-theme='dark'] {
   --bg: #12110f; --surface: #1c1a17; --ink: #f1ece4; --muted: #a39b8f;
-  --accent: #e0954a; --accent-ink: #12110f; --line: #2e2a25;
+  --accent: #e0954a; --accent-ink: #12110f; --line: #2e2a25; --danger: #f2867f;
 }
 
 @theme inline {
   --color-bg: var(--bg); --color-surface: var(--surface); --color-ink: var(--ink);
   --color-muted: var(--muted); --color-accent: var(--accent); --color-accent-ink: var(--accent-ink);
-  --color-line: var(--line);
+  --color-line: var(--line); --color-danger: var(--danger);
   --font-display: var(--font-display), var(--font-deva), system-ui, sans-serif;
   --font-sans: var(--font-body), var(--font-deva), system-ui, sans-serif;
 }
