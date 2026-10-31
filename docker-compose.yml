@@ -1,0 +1,21 @@
+# Local development: `docker compose up -d db` then `npm run dev`
+# Full stack (app + db):  docker compose --profile app up --build
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: shrim
+      POSTGRES_PASSWORD: shrim
+      POSTGRES_DB: shrim
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U shrim']
+      interval: 5s
+      retries: 10
+
+volumes:
+  pgdata:
