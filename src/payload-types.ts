@@ -67,8 +67,14 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
+    leads: Lead;
+    services: Service;
+    projects: Project;
+    testimonials: Testimonial;
+    guides: Guide;
+    faqs: Faq;
     media: Media;
+    users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -76,8 +82,14 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    guides: GuidesSelect<false> | GuidesSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -89,9 +101,13 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('en' | 'hi') | ('en' | 'hi')[];
   globals: {
     siteSettings: SiteSetting;
+    rates: Rate;
+    tracking: Tracking;
   };
   globalsSelect: {
     siteSettings: SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    rates: RatesSelect<false> | RatesSelect<true>;
+    tracking: TrackingSelect<false> | TrackingSelect<true>;
   };
   locale: 'en' | 'hi';
   widgets: {
@@ -123,6 +139,110 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads".
+ */
+export interface Lead {
+  id: number;
+  /**
+   * Auto-generated, e.g. SHR-2026-0001
+   */
+  reference?: string | null;
+  status: 'new' | 'contacted' | 'qualified' | 'site-visit' | 'quotation-sent' | 'negotiation' | 'won' | 'lost';
+  lostReason?: ('price' | 'timeline' | 'competitor' | 'not-genuine' | 'no-response' | 'other') | null;
+  nextFollowUp?: string | null;
+  assignedTo?: (number | null) | User;
+  /**
+   * Auto score (0–100)
+   */
+  score?: number | null;
+  scoreBand?: ('hot' | 'warm' | 'cold') | null;
+  /**
+   * Manual override (admin only)
+   */
+  scoreOverride?: number | null;
+  notes?:
+    | {
+        note: string;
+        at?: string | null;
+        author?: (number | null) | User;
+        id?: string | null;
+      }[]
+    | null;
+  quotationAmount?: number | null;
+  wonAmount?: number | null;
+  wonDate?: string | null;
+  statusHistory?:
+    | {
+        from?:
+          ('new' | 'contacted' | 'qualified' | 'site-visit' | 'quotation-sent' | 'negotiation' | 'won' | 'lost') | null;
+        to?:
+          ('new' | 'contacted' | 'qualified' | 'site-visit' | 'quotation-sent' | 'negotiation' | 'won' | 'lost') | null;
+        at?: string | null;
+        by?: (number | null) | User;
+        id?: string | null;
+      }[]
+    | null;
+  name: string;
+  phone: string;
+  email?: string | null;
+  locality?: string | null;
+  service?:
+    ('house-construction' | 'interior' | 'renovation' | 'fabrication' | 'turnkey' | 'commercial' | 'not-sure') | null;
+  areaSize?: string | null;
+  floors?: string | null;
+  plotStatus?: ('ready' | 'under-purchase' | 'existing-building') | null;
+  budgetBand?: ('under-10' | '10-25' | '25-50' | '50-100' | '100-plus') | null;
+  timeline?: ('immediately' | '1-3-months' | '3-6-months' | 'exploring') | null;
+  preferredVisitDate?: string | null;
+  preferredVisitSlot?: ('morning' | 'afternoon' | 'evening') | null;
+  message?: string | null;
+  /**
+   * Calculator inputs and the estimate shown to the visitor
+   */
+  calculator?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  source?: ('site-visit' | 'calculator' | 'contact' | 'service-page' | 'manual') | null;
+  /**
+   * e.g. the service page name
+   */
+  sourceDetail?: string | null;
+  attribution?: {
+    utm_source?: string | null;
+    utm_medium?: string | null;
+    utm_campaign?: string | null;
+    utm_term?: string | null;
+    utm_content?: string | null;
+    gclid?: string | null;
+    fbclid?: string | null;
+    landingPage?: string | null;
+    referrer?: string | null;
+    firstVisitAt?: string | null;
+    device?: ('mobile' | 'tablet' | 'desktop') | null;
+    /**
+     * Derived from the fields above when the lead is saved (milestone 4)
+     */
+    channel?: ('google-ads' | 'meta-ads' | 'organic' | 'gbp' | 'direct' | 'whatsapp' | 'other') | null;
+  };
+  consent?: {
+    given?: boolean | null;
+    at?: string | null;
+    /**
+     * Version of the consent wording the visitor agreed to
+     */
+    textVersion?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -151,10 +271,68 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  title: string;
+  /**
+   * Part of the URL. Do not change after launch.
+   */
+  slug: string;
+  order?: number | null;
+  /**
+   * One line shown on service cards
+   */
+  summary?: string | null;
+  cardImage?: (number | null) | Media;
+  heroImage?: (number | null) | Media;
+  heroHeadline?: string | null;
+  heroSub?: string | null;
+  painPoints?:
+    | {
+        title: string;
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  inclusions?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Starting rates come from Globals → Rates
+   */
+  tiers?:
+    | {
+        tier: 'basic' | 'standard' | 'premium';
+        label: string;
+        description?: string | null;
+        highlights?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
   id: number;
+  /**
+   * Describe the photo in a few words (for Google and screen readers)
+   */
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -188,6 +366,156 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  title: string;
+  slug: string;
+  service: number | Service;
+  /**
+   * Locality, e.g. Gomti Nagar Extension
+   */
+  area: string;
+  /**
+   * e.g. 1500 sq ft
+   */
+  plotSize?: string | null;
+  /**
+   * e.g. 1800 sq ft
+   */
+  builtUpArea?: string | null;
+  /**
+   * e.g. 7 months
+   */
+  duration?: string | null;
+  /**
+   * e.g. ₹35–40 lakh
+   */
+  budgetRange?: string | null;
+  showBudgetPublicly?: boolean | null;
+  challenge?: string | null;
+  solution?: string | null;
+  result?: string | null;
+  /**
+   * Shown in the before/after slider. Add them in the same order as the After images.
+   */
+  beforeImages?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  afterImages?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Self-hosted video (mp4/webm)
+   */
+  video?: (number | null) | Media;
+  /**
+   * Or a YouTube link
+   */
+  videoUrl?: string | null;
+  testimonial?: (number | null) | Testimonial;
+  featured?: boolean | null;
+  status: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  /**
+   * Full name, or initials (e.g. "R. Singh") if the client prefers
+   */
+  clientName: string;
+  area?: string | null;
+  project?: (number | null) | Project;
+  service?: (number | null) | Service;
+  text?: string | null;
+  /**
+   * Video testimonial (mp4/webm)
+   */
+  video?: (number | null) | Media;
+  /**
+   * Only if the client really gave a rating. Leave empty otherwise.
+   */
+  rating?: number | null;
+  consentToPublish: boolean;
+  status: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "guides".
+ */
+export interface Guide {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt?: string | null;
+  /**
+   * Draft outline for the writer. Not shown on the website.
+   */
+  outline?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  cover?: (number | null) | Media;
+  author?: string | null;
+  publishedAt?: string | null;
+  /**
+   * Used for the CTA box inside the article
+   */
+  relatedService?: (number | null) | Service;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  status: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  question: string;
+  answer: string;
+  category: 'general' | 'service';
+  service?: (number | null) | Service;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -211,12 +539,36 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'leads';
+        value: number | Lead;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'guides';
+        value: number | Guide;
+      } | null)
+    | ({
+        relationTo: 'faqs';
+        value: number | Faq;
       } | null)
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: number | User;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -262,28 +614,216 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "leads_select".
  */
-export interface UsersSelect<T extends boolean = true> {
-  name?: T;
-  role?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  resetPasswordRequestedAt?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
+export interface LeadsSelect<T extends boolean = true> {
+  reference?: T;
+  status?: T;
+  lostReason?: T;
+  nextFollowUp?: T;
+  assignedTo?: T;
+  score?: T;
+  scoreBand?: T;
+  scoreOverride?: T;
+  notes?:
     | T
     | {
+        note?: T;
+        at?: T;
+        author?: T;
         id?: T;
-        createdAt?: T;
-        expiresAt?: T;
       };
+  quotationAmount?: T;
+  wonAmount?: T;
+  wonDate?: T;
+  statusHistory?:
+    | T
+    | {
+        from?: T;
+        to?: T;
+        at?: T;
+        by?: T;
+        id?: T;
+      };
+  name?: T;
+  phone?: T;
+  email?: T;
+  locality?: T;
+  service?: T;
+  areaSize?: T;
+  floors?: T;
+  plotStatus?: T;
+  budgetBand?: T;
+  timeline?: T;
+  preferredVisitDate?: T;
+  preferredVisitSlot?: T;
+  message?: T;
+  calculator?: T;
+  source?: T;
+  sourceDetail?: T;
+  attribution?:
+    | T
+    | {
+        utm_source?: T;
+        utm_medium?: T;
+        utm_campaign?: T;
+        utm_term?: T;
+        utm_content?: T;
+        gclid?: T;
+        fbclid?: T;
+        landingPage?: T;
+        referrer?: T;
+        firstVisitAt?: T;
+        device?: T;
+        channel?: T;
+      };
+  consent?:
+    | T
+    | {
+        given?: T;
+        at?: T;
+        textVersion?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  order?: T;
+  summary?: T;
+  cardImage?: T;
+  heroImage?: T;
+  heroHeadline?: T;
+  heroSub?: T;
+  painPoints?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        id?: T;
+      };
+  inclusions?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  tiers?:
+    | T
+    | {
+        tier?: T;
+        label?: T;
+        description?: T;
+        highlights?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  metaTitle?: T;
+  metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  service?: T;
+  area?: T;
+  plotSize?: T;
+  builtUpArea?: T;
+  duration?: T;
+  budgetRange?: T;
+  showBudgetPublicly?: T;
+  challenge?: T;
+  solution?: T;
+  result?: T;
+  beforeImages?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  afterImages?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  video?: T;
+  videoUrl?: T;
+  testimonial?: T;
+  featured?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  clientName?: T;
+  area?: T;
+  project?: T;
+  service?: T;
+  text?: T;
+  video?: T;
+  rating?: T;
+  consentToPublish?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "guides_select".
+ */
+export interface GuidesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  excerpt?: T;
+  outline?: T;
+  content?: T;
+  cover?: T;
+  author?: T;
+  publishedAt?: T;
+  relatedService?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  category?: T;
+  service?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -325,6 +865,31 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  resetPasswordRequestedAt?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
       };
 }
 /**
@@ -405,6 +970,75 @@ export interface SiteSetting {
   createdAt?: string | null;
 }
 /**
+ * Drives the cost calculator and “starting from” prices on service pages.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rates".
+ */
+export interface Rate {
+  id: number;
+  /**
+   * Untick only after you have entered your real rates.
+   */
+  sampleData?: boolean | null;
+  /**
+   * One row per service × quality tier
+   */
+  rates?:
+    | {
+        service: 'house-construction' | 'renovation' | 'interior' | 'turnkey' | 'fabrication';
+        tier: 'basic' | 'standard' | 'premium';
+        rate: number;
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional add-ons in the calculator
+   */
+  extras?:
+    | {
+        key: 'parking' | 'boundaryWall' | 'basement';
+        label: string;
+        pricing: 'fixed' | 'perSqft';
+        value: number;
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Approximate cost split shown after the estimate. Each service should add up to 100%.
+   */
+  breakdown?:
+    | {
+        service: 'house-construction' | 'renovation' | 'interior' | 'turnkey' | 'fabrication';
+        label: string;
+        percent: number;
+        id?: string | null;
+      }[]
+    | null;
+  rangePercent?: number | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tracking".
+ */
+export interface Tracking {
+  id: number;
+  /**
+   * GTM-XXXXXXX. Falls back to NEXT_PUBLIC_GTM_ID. GA4, Google Ads, Meta Pixel and Clarity are added inside GTM.
+   */
+  gtmId?: string | null;
+  /**
+   * Only needed for the future Conversions API helper
+   */
+  metaPixelId?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "siteSettings_select".
  */
@@ -432,6 +1066,55 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         yearsExperience?: T;
         projectCount?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rates_select".
+ */
+export interface RatesSelect<T extends boolean = true> {
+  sampleData?: T;
+  rates?:
+    | T
+    | {
+        service?: T;
+        tier?: T;
+        rate?: T;
+        note?: T;
+        id?: T;
+      };
+  extras?:
+    | T
+    | {
+        key?: T;
+        label?: T;
+        pricing?: T;
+        value?: T;
+        note?: T;
+        id?: T;
+      };
+  breakdown?:
+    | T
+    | {
+        service?: T;
+        label?: T;
+        percent?: T;
+        id?: T;
+      };
+  rangePercent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tracking_select".
+ */
+export interface TrackingSelect<T extends boolean = true> {
+  gtmId?: T;
+  metaPixelId?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

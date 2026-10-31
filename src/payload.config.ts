@@ -7,7 +7,15 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Services } from './collections/Services'
+import { Projects } from './collections/Projects'
+import { Testimonials } from './collections/Testimonials'
+import { Guides } from './collections/Guides'
+import { Faqs } from './collections/Faqs'
+import { Leads } from './collections/Leads'
 import { SiteSettings } from './globals/SiteSettings'
+import { Rates } from './globals/Rates'
+import { Tracking } from './globals/Tracking'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -16,9 +24,10 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
+    components: { beforeDashboard: ['/components/admin/PlaceholderWarning'] },
   },
-  collections: [Users, Media],
-  globals: [SiteSettings],
+  collections: [Leads, Services, Projects, Testimonials, Guides, Faqs, Media, Users],
+  globals: [SiteSettings, Rates, Tracking],
   localization: {
     locales: [
       { label: 'English', code: 'en' },

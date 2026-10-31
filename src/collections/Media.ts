@@ -1,12 +1,14 @@
 import type { CollectionConfig } from 'payload'
 import path from 'path'
+import { hideFromStaff, isAdmin } from '../access'
 
 export const Media: CollectionConfig = {
   slug: 'media',
-  access: { read: () => true },
-  fields: [{ name: 'alt', type: 'text', required: true, localized: true }],
+  admin: { hidden: hideFromStaff, group: 'Content' },
+  access: { read: () => true, create: isAdmin, update: isAdmin, delete: isAdmin },
+  fields: [{ name: 'alt', type: 'text', required: true, localized: true, admin: { description: 'Describe the photo in a few words (for Google and screen readers)' } }],
   upload: {
-    // Local disk (Docker volume in production)
+    // Local disk (a Docker volume in production)
     staticDir: path.resolve(process.cwd(), 'media'),
     mimeTypes: ['image/*', 'video/mp4', 'video/webm'],
     imageSizes: [

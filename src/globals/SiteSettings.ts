@@ -1,8 +1,10 @@
 import type { GlobalConfig } from 'payload'
+import { hideFromStaff, isAdmin } from '../access'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'siteSettings',
-  access: { read: () => true, update: ({ req }) => req.user?.role === 'admin' },
+  access: { read: () => true, update: isAdmin },
+  admin: { hidden: hideFromStaff, group: 'Settings' },
   fields: [
     { name: 'phone', type: 'text', defaultValue: 'PLACEHOLDER', admin: { description: 'Display phone, e.g. +91 98XXXXXXXX' } },
     { name: 'whatsapp', type: 'text', defaultValue: 'PLACEHOLDER', admin: { description: 'Digits only with country code, e.g. 919876543210' } },

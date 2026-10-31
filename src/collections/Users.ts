@@ -1,8 +1,9 @@
 import type { CollectionConfig } from 'payload'
+import { hideFromStaff } from '../access'
 
 export const Users: CollectionConfig = {
   slug: 'users',
-  admin: { useAsTitle: 'email' },
+  admin: { useAsTitle: 'email', hidden: hideFromStaff, group: 'Settings' },
   auth: { maxLoginAttempts: 5, lockTime: 10 * 60 * 1000 },
   access: {
     create: ({ req }) => req.user?.role === 'admin',
