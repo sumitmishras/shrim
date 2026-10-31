@@ -3,7 +3,7 @@ import type { ServerProps } from 'payload'
 const PATTERN = /PLACEHOLDER|\[SAMPLE|\[PROJECT COUNT\]|UPDATE BEFORE LAUNCH/
 
 /** Dashboard banner: lists published content that still holds placeholder text. Admin only. */
-export default async function PlaceholderWarning({ payload, user }: ServerProps) {
+export default async function PlaceholderWarning({ payload, user }: Pick<ServerProps, 'payload' | 'user'>) {
   if (user?.role !== 'admin') return null
   const hits: string[] = []
   const check = (label: string, doc: unknown) => PATTERN.test(JSON.stringify(doc)) && hits.push(label)

@@ -47,3 +47,23 @@ export async function sendLeadAlert(lead: LeadLike) {
     console.error('[telegram] send failed:', e instanceof Error ? e.message : e)
   }
 }
+
+export const telegramConfigured = () => Boolean(process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID)
+
+/** Plain send used by the daily digest. Returns what happened instead of throwing. */
+export async function sendTelegram(text: string): Promise<'sent' | 'not-configured' | 'failed'> {
+  if (!telegramConfigured()) return 'not-configured'
+  try {
+    const base = process.env.TELEGRAM_API_BASE || 'https://api.telegram.org'
+    const res = await fetch(`${base}/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text, parse_mode: 'HTML', disable_web_page_preview: true }),
+      signal: AbortSignal.timeout(8000),
+    })
+    if (!res.ok) { console.error(`[telegram] send failed: HTTP ${res.status}`); return 'failed' }
+    return 'sent'
+  } catch (e) {
+    console.error('[telegram] send failed:', e instanceof Error ? e.message : e)
+    return 'failed'
+  }
+}

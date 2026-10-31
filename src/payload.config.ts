@@ -26,7 +26,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
-    components: { beforeDashboard: ['/components/admin/PlaceholderWarning'] },
+    components: { views: { dashboard: { Component: '/components/admin/Dashboard' } } },
   },
   collections: [Leads, Services, Projects, Testimonials, Guides, Faqs, Pages, Media, Users],
   globals: [SiteSettings, Rates, Tracking, AboutPage],

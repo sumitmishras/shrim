@@ -15,8 +15,10 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/run.ts",
     "samples:publish": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/samples.ts publish",
-    "test:logic": "tsx scripts/test-lead-logic.ts",
+    "test:logic": "tsx scripts/test-lead-logic.ts && tsx scripts/test-crm-logic.ts",
     "test:e2e": "node scripts/test-leads-e2e.mjs",
+    "test:crm": "node scripts/test-crm-e2e.mjs ui",
+    "audit:admin": "node scripts/audit-admin.mjs",
     "samples:unpublish": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/samples.ts unpublish"
   },
   "dependencies": {

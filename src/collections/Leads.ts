@@ -1,5 +1,6 @@
 import type { CollectionBeforeChangeHook, CollectionConfig, Field } from 'payload'
 import { adminOnlyField, isAdmin, isAdminOrStaff } from '../access'
+import { exportLeads, sendDigestNow } from './leadsEndpoints'
 import { deriveChannel } from '../lib/leads/channel'
 import { bandFor, computeScore } from '../lib/leads/score'
 
@@ -74,7 +75,8 @@ export const Leads: CollectionConfig = {
   slug: 'leads',
   admin: {
     useAsTitle: 'reference',
-    defaultColumns: ['reference', 'name', 'phone', 'service', 'status', 'scoreBand', 'nextFollowUp', 'createdAt'],
+    defaultColumns: ['reference', 'name', 'phone', 'status', 'scoreBand', 'nextFollowUp'],
+    components: { beforeListTable: ['/components/admin/LeadsListTools'] },
     listSearchableFields: ['reference', 'name', 'phone', 'email'],
     group: 'CRM',
   },
@@ -85,6 +87,7 @@ export const Leads: CollectionConfig = {
     update: isAdminOrStaff,
     delete: isAdmin, // staff cannot delete
   },
+  endpoints: [exportLeads, sendDigestNow],
   hooks: { beforeChange: [buildReference, auditStatus, stampNotes, scoreLead, setChannel] },
   fields: [
     {
@@ -93,8 +96,9 @@ export const Leads: CollectionConfig = {
         {
           label: 'Pipeline',
           fields: [
+            { type: 'ui', name: 'contactActions', admin: { components: { Field: '/components/admin/LeadActions' } } },
             { name: 'reference', type: 'text', unique: true, index: true, admin: { readOnly: true, description: 'Auto-generated, e.g. SHR-2026-0001' }, access: locked },
-            { name: 'status', type: 'select', required: true, defaultValue: 'new', options: leadStatuses, index: true },
+            { name: 'status', type: 'select', required: true, defaultValue: 'new', options: leadStatuses, index: true, admin: { components: { Cell: '/components/admin/StatusCell' } } },
             {
               name: 'lostReason', type: 'select', admin: { condition: (d) => d?.status === 'lost' },
               options: [
@@ -143,7 +147,7 @@ export const Leads: CollectionConfig = {
           label: 'Enquiry',
           fields: [
             ro({ name: 'name', type: 'text', required: true }),
-            ro({ name: 'phone', type: 'text', required: true, index: true }),
+            ro({ name: 'phone', type: 'text', required: true, index: true, admin: { components: { Cell: '/components/admin/PhoneCell' } } }),
             ro({ name: 'email', type: 'email' }),
             ro({ name: 'locality', type: 'text' }),
             ro({ name: 'service', type: 'select', options: [

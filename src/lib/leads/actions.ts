@@ -83,10 +83,15 @@ export async function submitCalculatorLead(raw: unknown): Promise<LeadResult> {
     }
     const inputs = { service: d.calcService, area: d.area, floors: d.floors, tier: d.tier, extras: d.extras }
     const est = estimate(rates, inputs)
+    // Keep the breakdown (English + Hindi labels) so the owner can send it on WhatsApp later.
+    const rHi = await payload.findGlobal({ slug: 'rates', depth: 0, locale: 'hi' })
+    const key = rateServiceKey[d.calcService]
+    const breakdown = (r.breakdown ?? []).map((x, i) => ({ service: x.service, label: x.label, label_hi: rHi.breakdown?.[i]?.label ?? x.label, percent: x.percent }))
+      .filter((x) => x.service === key).map(({ label, label_hi, percent }) => ({ label, label_hi, percent }))
     return {
       name: d.name, phone: d.phone, email: d.email, source: 'calculator',
       service: rateServiceKey[d.calcService], locality: d.locality, areaSize: `${d.area} sq ft`, floors: String(d.floors),
-      calculator: { inputs, estimate: est && { rate: est.rate, builtUp: est.builtUp, extrasTotal: est.extrasTotal, low: est.low, high: est.high }, ratesAreSample: !!r.sampleData },
+      calculator: { inputs, estimate: est && { rate: est.rate, builtUp: est.builtUp, extrasTotal: est.extrasTotal, low: est.low, high: est.high, breakdown }, ratesAreSample: !!r.sampleData },
     }
   })
 }
